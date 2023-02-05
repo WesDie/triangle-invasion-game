@@ -34,7 +34,7 @@ public class Movement : MonoBehaviour
 
         OverheatBarImage = ManageScript.GetComponent<ManageGame>().OverheatBarImage;
 
-        if (Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true && ManageScript.GetComponent<ManageGame>().OptionsMenuIsOpen == false)
+        if (Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true)
         {
             Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
@@ -44,7 +44,7 @@ public class Movement : MonoBehaviour
             body.drag = 10f;
         }
 
-        if (Input.GetMouseButtonDown(0) && ManageScript.GetComponent<ManageGame>().limitIsReached == true &&  ManageScript.GetComponent<ManageGame>().OptionsMenuIsOpen == false)
+        if (Input.GetMouseButtonDown(0) && ManageScript.GetComponent<ManageGame>().limitIsReached == true)
         {
             Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
