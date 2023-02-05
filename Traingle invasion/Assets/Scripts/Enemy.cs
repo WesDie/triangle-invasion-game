@@ -21,11 +21,11 @@ public class Enemy : MonoBehaviour
     EnemySpawn enemeySpawnScript;
     GameObject gameScoretext;
     public float Health;
-    GameObject gameOverUI;
+    GameObject gameManagerObject;
 
     void Start()
     {
-        gameOverUI = GameObject.Find("GameOverUI");
+        gameManagerObject = GameObject.Find("GameManager");
         gameScoretext = GameObject.Find("Scoretext");
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
         player = GameObject.FindGameObjectWithTag("Player");
@@ -57,6 +57,7 @@ public class Enemy : MonoBehaviour
         {
             if(Health != 10){
                 mainCamera.GetComponent<mainCamera>().TriggerShake();
+                
                 Instantiate(smallExplosionFX, transform.position, Quaternion.identity);
             }
 
@@ -67,7 +68,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
             Instantiate(ExplosionFX, transform.position, Quaternion.identity);
             mainCamera.GetComponent<mainCamera>().TriggerShake();
-            gameOverUI.SetActive(true);
+            gameManagerObject.GetComponent<ManageGame>().OpenGameOverMenu();
             playerScript.gameOverisOn = true;
 
             Time.timeScale = 0;

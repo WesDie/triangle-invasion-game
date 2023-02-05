@@ -5,6 +5,7 @@ using UnityEngine;
 public class projectile : MonoBehaviour
 {
     public float speed = 20;
+    public bool Upgrade1 = false;
 
     void Start()
     {

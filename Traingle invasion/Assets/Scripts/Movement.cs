@@ -10,22 +10,21 @@ public class Movement : MonoBehaviour
     public GameObject bulletPrefab;
 
     float horizontal;
-    float vertical;
 
     public float runSpeed = 20.0f;
+    public float shootSpeed = -20.0f;
+    public float returnSpeed = 0.1f;
 
     public bool gameOverisOn = false;
 
     public float cooldownValue = 0.10f;
-    GameObject OverheatBar;
-    Image OverheatBarImage;
-    GameObject ManageScript;
+    private Image OverheatBarImage;
+    public GameObject ManageScript;
+    public GameObject refrencePos;
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        OverheatBar = GameObject.Find("OverheatBar");
-        OverheatBarImage = OverheatBar.GetComponent<Image>();
         ManageScript = GameObject.FindGameObjectWithTag("GameManager");
     }
 
@@ -33,11 +32,16 @@ public class Movement : MonoBehaviour
     {
         horizontal = Input.GetAxisRaw("Horizontal");
 
+        OverheatBarImage = ManageScript.GetComponent<ManageGame>().OverheatBarImage;
+
         if (Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true && ManageScript.GetComponent<ManageGame>().OptionsMenuIsOpen == false)
         {
             Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
             OverheatBarImage.fillAmount = OverheatBarImage.fillAmount - cooldownValue;
+
+            body.AddForce(transform.up * shootSpeed);
+            body.drag = 10f;
         }
 
         if (Input.GetMouseButtonDown(0) && ManageScript.GetComponent<ManageGame>().limitIsReached == true &&  ManageScript.GetComponent<ManageGame>().OptionsMenuIsOpen == false)
@@ -45,6 +49,14 @@ public class Movement : MonoBehaviour
             Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
             OverheatBarImage.fillAmount = OverheatBarImage.fillAmount - cooldownValue;
+
+            body.AddForce(transform.up * shootSpeed);
+            body.drag = 10f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Time.timeScale = 0;
         }
 
         if(gameOverisOn == true)
@@ -61,6 +73,8 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        refrencePos.transform.position = new Vector2(transform.position.x, -8);
+        transform.position = Vector2.MoveTowards(transform.position, refrencePos.transform.position, returnSpeed * Time.deltaTime);
+        body.velocity = new Vector2(horizontal * runSpeed, body.velocity.y);
     }
 }

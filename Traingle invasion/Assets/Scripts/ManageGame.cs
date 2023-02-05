@@ -8,24 +8,22 @@ public class ManageGame : MonoBehaviour
 {
     public float refillvalue = 0.01f;
     public float refillvalueLimit = 0.0000005f;
-    GameObject OverheatBar;
-    Image OverheatBarImage;
+    public GameObject OverheatBar;
+    public Image OverheatBarImage;
     public bool limitIsReached = false;
-    GameObject mainMenuObject;
-    GameObject gameUIObject;
-    GameObject gameoverUIObject;
+    public GameObject mainMenuObject;
+    public GameObject gameUIObject;
+    public GameObject gameoverUIObject;
     public bool OptionsMenuIsOpen = true;
+    EnemySpawn enemySpawnScript;
 
     void Start()
     {
         Time.timeScale = 0;
-        OverheatBar = GameObject.Find("OverheatBar");
         OverheatBarImage = OverheatBar.GetComponent<Image>();
-        mainMenuObject = GameObject.Find("MainMenu");
-        gameUIObject = GameObject.Find("GameUI");
-        gameoverUIObject = GameObject.Find("GameOverUI");
-        //gameoverUIObject.SetActive(false);
-        //gameUIObject.SetActive(false);
+        gameoverUIObject.SetActive(false);
+        gameUIObject.SetActive(false);
+        enemySpawnScript = gameObject.GetComponent<EnemySpawn>();
     }
 
 
@@ -50,6 +48,7 @@ public class ManageGame : MonoBehaviour
         mainMenuObject.SetActive(false);
         gameUIObject.SetActive(true);
         OptionsMenuIsOpen = false;
+        enemySpawnScript.enabled = true;
     }
 
     public void QuitGame(){
@@ -61,6 +60,14 @@ public class ManageGame : MonoBehaviour
         mainMenuObject.SetActive(true);
         gameUIObject.SetActive(false);
         gameoverUIObject.SetActive(false);
+        OptionsMenuIsOpen = false;
+    }
+
+    public void OpenGameOverMenu(){
+        Time.timeScale = 0;
+        mainMenuObject.SetActive(false);
+        gameUIObject.SetActive(false);
+        gameoverUIObject.SetActive(true);
         OptionsMenuIsOpen = false;
     }
 }
