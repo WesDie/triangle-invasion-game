@@ -14,12 +14,22 @@ public class ManageGame : MonoBehaviour
     public GameObject gameUIObject;
     public GameObject gameoverUIObject;
     EnemySpawn enemySpawnScript;
+    public int highScore = 0;
+    GameObject gameHighScoretext;
+
+    public float refillvalueEffect = 0.001f;
+    public float refillvalueLimitEffect = 0.00000005f;
+    public Image OverheatBarEffectImage;
+    public bool limitIsReachedEffect = false;
 
     void Start()
     {
         OverheatBarImage = OverheatBar.GetComponent<Image>();
         gameoverUIObject.SetActive(false);
+        gameHighScoretext = GameObject.Find("HighScoreText");
         enemySpawnScript = gameObject.GetComponent<EnemySpawn>();
+        LoadGame();
+        gameHighScoretext.GetComponent<Text>().text = "High score: " + highScore.ToString();
     }
 
 
@@ -37,15 +47,20 @@ public class ManageGame : MonoBehaviour
         } else if (limitIsReached == true){
             OverheatBarImage.fillAmount = OverheatBarImage.fillAmount + refillvalue;
         }
-    }
 
-    public void PlayGame(){
-        
-    }
 
-    public void QuitGame(){
-        Debug.Log("Quit Game");
-        Application.Quit();
+        if(OverheatBarEffectImage.fillAmount < 0.01){
+            limitIsReachedEffect = false;
+        } else if (OverheatBarEffectImage.fillAmount > 0.2){
+            limitIsReachedEffect = true;
+        }
+
+        if(limitIsReachedEffect == false){
+            OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount + refillvalueEffect;
+
+        } else if (limitIsReachedEffect == true){
+            OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount + refillvalueLimitEffect;
+        }
     }
     
     public void GotoMainMenu(){
@@ -56,5 +71,27 @@ public class ManageGame : MonoBehaviour
         Time.timeScale = 0;
         gameUIObject.SetActive(false);
         gameoverUIObject.SetActive(true);
+        SaveData();
     }
+
+    void SaveData(){
+        if(highScore < enemySpawnScript.score){
+            PlayerPrefs.SetInt("SavedHighScoreInt", enemySpawnScript.score);
+            PlayerPrefs.Save();
+            Debug.Log("Game data saved!");
+        }
+    }
+
+    void LoadGame()
+    {
+        if (PlayerPrefs.HasKey("SavedHighScoreInt"))
+        {
+            highScore = PlayerPrefs.GetInt("SavedHighScoreInt");
+            Debug.Log("Game data loaded!");
+        }
+        else{
+            Debug.LogError("There is no save data!");
+        }
+    }
+
 }
