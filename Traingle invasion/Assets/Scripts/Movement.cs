@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
 {
     Rigidbody2D body;
     public GameObject bulletPrefab;
+    public GameObject bigBulletPrefab;
 
     float horizontal;
 
@@ -20,6 +21,7 @@ public class Movement : MonoBehaviour
     public float cooldownValue = 0.10f;
     private Image OverheatBarImage;
     private Image OverheatBarEffectImage;
+    public GameObject CantPayEffectImage;
     public GameObject ManageScript;
     public GameObject refrencePos;
     public float specialEffect = 0;
@@ -36,6 +38,12 @@ public class Movement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         ManageScript = GameObject.FindGameObjectWithTag("GameManager");
+
+        Effect1 = true;
+        Effect2 = false;
+        Effect3 = false;
+        Effect4 = false;
+        effectcost = 0.2f;
     }
 
     void Update()
@@ -97,8 +105,10 @@ public class Movement : MonoBehaviour
 
         if(OverheatBarEffectImage.fillAmount < effectcost){
             specialEffectCanPay = false;
+            CantPayEffectImage.SetActive(true);
         } else {
             specialEffectCanPay = true;
+            CantPayEffectImage.SetActive(false);
         }
 
         if (Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true)
@@ -135,8 +145,13 @@ public class Movement : MonoBehaviour
                 body.AddForce(transform.up * -2000f);
                 body.drag = 10f;
             } else if(Effect2 == true){
-                TimedSpecialValue = 10;
+                TimedSpecialValue = 100;
                 SpecialEffectTimed();
+            } else if(Effect3 == true){
+                Instantiate(bigBulletPrefab, transform.position, Quaternion.identity);
+                OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
+                body.AddForce(transform.up * -7500f);
+                body.drag = 10f;
             }
         }
 
@@ -168,10 +183,6 @@ public class Movement : MonoBehaviour
             } else{
 
             }
-    }
-
-    void KnipperEffectBar(){
-
     }
 
     private void FixedUpdate()

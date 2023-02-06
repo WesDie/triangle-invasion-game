@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour
     GameObject GameManager;
     GameObject player;
     public ParticleSystem ExplosionFX;
-    public ParticleSystem smallExplosionFX;
     GameObject mainCamera;
 
     Movement playerScript;
@@ -39,7 +38,7 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate((transform.up * speed * Time.deltaTime));
 
-        if(Health == 0){
+        if(Health <= 0){
             Instantiate(ExplosionFX, transform.position, Quaternion.identity);
             mainCamera.GetComponent<mainCamera>().TriggerShake();
             enemeySpawnScript.enemiesDestroyed = enemeySpawnScript.enemiesDestroyed + 1;
@@ -55,13 +54,12 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Bullet")
         {
-            if(Health != 10){
-                mainCamera.GetComponent<mainCamera>().TriggerShake();
-                
-                Instantiate(smallExplosionFX, transform.position, Quaternion.identity);
+            if(other.gameObject.GetComponent<projectile>().Upgrade1 == false){
+                Health = Health - 10;
+            } else if (other.gameObject.GetComponent<projectile>().Upgrade1 == true){
+                Health = Health - 100;
             }
 
-            Health = Health - 10;
         }
         if (other.tag == "Finish")
         {
