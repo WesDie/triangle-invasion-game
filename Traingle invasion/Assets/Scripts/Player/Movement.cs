@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
     Rigidbody2D body;
     public GameObject bulletPrefab;
     public GameObject bigBulletPrefab;
+    public GameObject homingBulletPrefab;
 
     float horizontal;
 
@@ -33,6 +34,7 @@ public class Movement : MonoBehaviour
     int TimedSpecialValue = 10;
     bool specialEffectCanPay = true;
     float effectcost = 0f;
+    int homingTimedValue = 3;  
 
     void Start()
     {
@@ -90,7 +92,7 @@ public class Movement : MonoBehaviour
             Effect2 = false;
             Effect3 = true;
             Effect4 = false;
-            effectcost = 0f;
+            effectcost = 0.2f;
         } else if(specialEffect > 0.6 && specialEffect < 0.8){
             specialEffectList.transform.GetChild(0).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
@@ -100,7 +102,7 @@ public class Movement : MonoBehaviour
             Effect2 = false;
             Effect3 = false;
             Effect4 = true;
-            effectcost = 0f;
+            effectcost = 0.3f;
         }
 
         if(OverheatBarEffectImage.fillAmount < effectcost){
@@ -145,13 +147,16 @@ public class Movement : MonoBehaviour
                 body.AddForce(transform.up * -2000f);
                 body.drag = 10f;
             } else if(Effect2 == true){
-                TimedSpecialValue = 100;
+                TimedSpecialValue = 10;
                 SpecialEffectTimed();
             } else if(Effect3 == true){
                 Instantiate(bigBulletPrefab, transform.position, Quaternion.identity);
                 OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
                 body.AddForce(transform.up * -7500f);
                 body.drag = 10f;
+            } else if(Effect4 == true){    
+                homingTimedValue = 3;       
+                HomingBulletTimed();
             }
         }
 
@@ -170,6 +175,19 @@ public class Movement : MonoBehaviour
             }
         }
 
+    }
+
+    void HomingBulletTimed(){
+        if(homingTimedValue != 0){
+                Instantiate(homingBulletPrefab, transform.position, Quaternion.identity);
+                OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.1f;
+                homingTimedValue--;
+                body.AddForce(transform.up * -300f);
+                body.drag = 10f;
+                Invoke("HomingBulletTimed", 0.15f);
+        } else{
+
+        }
     }
 
     void SpecialEffectTimed(){

@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     GameObject gameScoretext;
     public float Health;
     GameObject gameManagerObject;
+    public bool isTargeted = false;
 
     void Start()
     {

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2109003188764441064}
   m_Layer: 0
   m_Name: EnemyRare (3)
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 5486565022007070221}
   m_Layer: 0
   m_Name: EnemyRare (2)
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,8 +273,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: -1
   ExplosionFX: {fileID: 1824600303970711261, guid: 2f71ed6bd7dcfe442975d5629a3897d1, type: 3}
-  smallExplosionFX: {fileID: 918026473488870994, guid: 42dc1ad6c892e7a4986d0d31f3340917, type: 3}
   Health: 20
+  isTargeted: 0
 --- !u!50 &7476649399367903820
 Rigidbody2D:
   serializedVersion: 4
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 5895510606722059764}
   m_Layer: 0
   m_Name: EnemyRare
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 885137599311317062}
   m_Layer: 0
   m_Name: EnemyRare (1)
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

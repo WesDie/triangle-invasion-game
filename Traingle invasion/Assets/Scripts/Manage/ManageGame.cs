@@ -27,7 +27,6 @@ public class ManageGame : MonoBehaviour
         OverheatBarImage = OverheatBar.GetComponent<Image>();
         gameoverUIObject.SetActive(false);
         enemySpawnScript = gameObject.GetComponent<EnemySpawn>();
-        Load();
     }
 
 
@@ -79,7 +78,6 @@ public class ManageGame : MonoBehaviour
         Time.timeScale = 0;
         gameUIObject.SetActive(false);
         gameoverUIObject.SetActive(true);
-        Save();
     }
 
 }
