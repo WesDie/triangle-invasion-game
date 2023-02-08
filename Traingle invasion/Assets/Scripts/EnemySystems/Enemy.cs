@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     GameObject mainCamera;
 
     Movement playerScript;
-    EnemySpawn enemeySpawnScript;
+    ManageGame manageGameScript;
     WaveSpawner enemeyWaveScript; 
     GameObject gameScoretext;
     public float Health;
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
         player = GameObject.FindGameObjectWithTag("Player");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        enemeySpawnScript = GameManager.GetComponent<EnemySpawn>();
+        manageGameScript = GameManager.GetComponent<ManageGame>();
         enemeyWaveScript = GameManager.GetComponent<WaveSpawner>();
         playerScript = player.GetComponent<Movement>();
     }
@@ -44,10 +44,9 @@ public class Enemy : MonoBehaviour
         if(Health <= 0){
             Instantiate(ExplosionFX, transform.position, Quaternion.identity);
             mainCamera.GetComponent<mainCamera>().TriggerShake();
-            enemeySpawnScript.enemiesDestroyed = enemeySpawnScript.enemiesDestroyed + 1;
             enemeyWaveScript.enmiesKilledInWave = enemeyWaveScript.enmiesKilledInWave + 1;
-            enemeySpawnScript.score = enemeySpawnScript.score + 10;
-            gameScoretext.GetComponent<Text>().text = "Score: " + enemeySpawnScript.score.ToString();
+            manageGameScript.score = manageGameScript.score + 10;
+            gameScoretext.GetComponent<Text>().text = "Score: " + manageGameScript.score.ToString();
 
             Destroy(gameObject);
         }

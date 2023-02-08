@@ -6,6 +6,7 @@ public class projectile : MonoBehaviour
 {
     public float homingSpeed = 5;
     public float speed = 20;
+    public float projectileHealth = 10;
     public bool Upgrade1 = false;
     public ParticleSystem smallExplosionFX;
     GameObject mainCamera;
@@ -65,22 +66,23 @@ public class projectile : MonoBehaviour
         {
             transform.Translate((transform.up * homingSpeed * Time.deltaTime));
             Invoke("HomingExplode", 0.5f);
-            Destroy(gameObject, 0.5f);
         }
     }
 
     void HomingExplode()
     {
         Instantiate(homingBulletExplosionFX, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Enemy")
         {
-            Destroy(gameObject);
 
             mainCamera.GetComponent<mainCamera>().TriggerShake();
+
+            projectileHealth = projectileHealth - 10;
 
             if (Upgrade1 == false)
             {
@@ -89,6 +91,10 @@ public class projectile : MonoBehaviour
             else
             {
                 Instantiate(upgrade1ExplosionFX, transform.position, Quaternion.identity);
+            }
+
+            if(projectileHealth == 0){
+                Destroy(gameObject);
             }
         }
     }

@@ -13,7 +13,6 @@ public class ManageGame : MonoBehaviour
     public bool limitIsReached = false;
     public GameObject gameUIObject;
     public GameObject gameoverUIObject;
-    EnemySpawn enemySpawnScript;
     public int score;
     public int highScore;
 
@@ -26,7 +25,6 @@ public class ManageGame : MonoBehaviour
     {
         OverheatBarImage = OverheatBar.GetComponent<Image>();
         gameoverUIObject.SetActive(false);
-        enemySpawnScript = gameObject.GetComponent<EnemySpawn>();
     }
 
 

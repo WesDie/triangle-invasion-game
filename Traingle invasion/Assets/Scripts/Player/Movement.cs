@@ -152,7 +152,7 @@ public class Movement : MonoBehaviour
             } else if(Effect3 == true){
                 Instantiate(bigBulletPrefab, transform.position, Quaternion.identity);
                 OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
-                body.AddForce(transform.up * -7500f);
+                body.AddForce(transform.up * -3000f);
                 body.drag = 10f;
             } else if(Effect4 == true){    
                 homingTimedValue = 3;       

@@ -2,28 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public int currentWave = 1;
-    public int[] enemiesWavesAndAmount;
+    [System.Serializable]
+    public class Waves{
+        public int amountOfEnemies;
+        public float waveSpeed;
+        public float timeBetweenWave;
+        public GameObject enemyType1;
+        public GameObject enemyType2;
+        public GameObject enemyType3;
+    }
+    public Waves[] waveInfo;
+
+    [Header("Other wave settings")]
     public GameObject[] enemySpawns;
-    public GameObject normalEnemy;
-    public GameObject rareEnemy;
-    public GameObject legendaryEnemy;
-    public Text currentWaveText;
+
+    [Header("Debuging info")]
+    public int currentWave = -1;
     public int enmiesKilledInWave;
     public float ttime;
+
+    [Header("Object settings")]
+    public GameObject waveCompleteText;
+    public GameObject levelCompleteObject;
+    public Text currentWaveText;
     
 
-    private bool endWaves;
-    private float timeBetweenCurrentWave;
-    private int enemiesSpawnedInWave;
+    bool endWaves;
+    float timeBetweenCurrentWave;
+    int enemiesSpawnedInWave;
+    bool waveComplete = false;
+    bool levelComplete = false;
+
+    List<GameObject> availableSpawns = new List<GameObject>();
 
     void Start()
     {
         timeBetweenCurrentWave = 5f;
-        currentWaveText.text = "Wave 1: 0/" + enemiesWavesAndAmount[0];
+        currentWaveText.text = "Wave 1: 0/" + waveInfo[0].amountOfEnemies;
+        var tmp = new Waves();
+        waveCompleteText.SetActive(false);
     }
 
 
@@ -31,114 +52,72 @@ public class WaveSpawner : MonoBehaviour
     {
         ttime = Time.time;
 
-        if(enemiesWavesAndAmount.Length + 1 == currentWave){
+        if(waveInfo.Length == currentWave){
             Debug.Log("Level Complete");
             endWaves = true;
         }
 
-        if(Time.time >= timeBetweenCurrentWave && endWaves == false){
-            if(currentWave == 1){
-                InvokeRepeating("SpawnWave1", 0f, 2f);
-                timeBetweenCurrentWave = Time.time + 30f;
-                enmiesKilledInWave = 0;
-                enemiesSpawnedInWave = 0;
-                currentWave++;
-            } else if(currentWave == 2){
-                InvokeRepeating("SpawnWave2", 0f, 1f);
-                CancelInvoke("SpawnWave1");
-                timeBetweenCurrentWave = Time.time + 30f;
-                enmiesKilledInWave = 0;
-                enemiesSpawnedInWave = 0;
-                currentWave++;
-            }else if(currentWave == 3){
-                InvokeRepeating("SpawnWave3", 0f, 0.5f);
-                CancelInvoke("SpawnWave2");
-                timeBetweenCurrentWave = Time.time + 30f;
-                enmiesKilledInWave = 0;
-                enemiesSpawnedInWave = 0;
-                currentWave++;
-            }else if(currentWave == 4){
-                InvokeRepeating("SpawnWave4", 0f, 2f);
-                CancelInvoke("SpawnWave3");
-                timeBetweenCurrentWave = Time.time + 30f;
-                enmiesKilledInWave = 0;
-                enemiesSpawnedInWave = 0;
-                currentWave++;
-            }else if(currentWave == 5){
-                InvokeRepeating("SpawnWave5", 0f, 2f);
-                CancelInvoke("SpawnWave4");
-                timeBetweenCurrentWave = Time.time + 30f;
-                enmiesKilledInWave = 0;
-                enemiesSpawnedInWave = 0;
-                currentWave++;
-            }
+        if(levelComplete == true){
+            levelCompleteObject.SetActive(true);
+            Time.timeScale = 0;
         }
 
-        if(Time.time >= 5f){
-            currentWaveText.text = "Wave " + (currentWave - 1) + ": " + enmiesKilledInWave + "/" + enemiesWavesAndAmount[currentWave - 2];
+        if(Time.time >= timeBetweenCurrentWave && endWaves == false){
+            currentWave++;
+            CancelInvoke("SpawnWave");
+            InvokeRepeating("SpawnWave", 0f, waveInfo[currentWave].waveSpeed);
+            timeBetweenCurrentWave = Time.time + waveInfo[currentWave].timeBetweenWave;
+            enmiesKilledInWave = 0;
+            enemiesSpawnedInWave = 0;
+            waveComplete = false;
+        } else if (Time.time >= timeBetweenCurrentWave && endWaves == true){
+            levelComplete = true;
+        }
+
+        if(Time.time >= 5f && levelComplete == false && endWaves == false){
+            currentWaveText.text = "Wave " + (currentWave + 1) + ": " + enmiesKilledInWave + "/" + waveInfo[currentWave].amountOfEnemies;
         } else{
             currentWaveText.text = "Wave 0: 0/0";
         }
-
     }
 
-    void SpawnWave1(){
-        if(enemiesSpawnedInWave <= enemiesWavesAndAmount[0] - 1){
-            int num1 = Random.Range(0, enemySpawns.Length);
+    void SpawnWave(){
+        if(enemiesSpawnedInWave <= waveInfo[currentWave].amountOfEnemies - 1){
+
+            int num2 = 0;
+            for (int i = 0; i < enemySpawns.Length; i++)
+            {
+                if(enemySpawns[i].GetComponent<EnemySpawns>().isSpawnActive == true){
+                    availableSpawns.Add(enemySpawns[i]);
+                    num2++;
+                }
+            }
+
+            int num1 = Random.Range(0, num2);
+            int num3 = Random.Range(0, 2);
             enemiesSpawnedInWave++;
-            Instantiate(normalEnemy, enemySpawns[num1].transform.position, Quaternion.Euler(new Vector3(180, 0, 0)));
-        } else if(endWaves == true){
-            Debug.Log("Level Complete");
-        } else{
-            Debug.Log("Wave 1 Complete");
+            if(num3 == 0){
+                Instantiate(waveInfo[currentWave].enemyType1, availableSpawns[num1].transform.position, Quaternion.Euler(new Vector3(180, 0, 0)));
+            } else if (num3 == 1){
+                Instantiate(waveInfo[currentWave].enemyType2, availableSpawns[num1].transform.position, Quaternion.Euler(new Vector3(180, 0, 0)));
+            } else if (num3 == 2){
+                Instantiate(waveInfo[currentWave].enemyType3, availableSpawns[num1].transform.position, Quaternion.Euler(new Vector3(180, 0, 0)));
+            }
+            
+            availableSpawns.Clear();
+
+        } else if(waveComplete == false && enmiesKilledInWave == waveInfo[currentWave].amountOfEnemies && endWaves == false){
+            CancelInvoke("SpawnWave");
+            waveComplete = true;
+            Debug.Log("Wave Complete");
+            waveCompleteText.GetComponent<TMP_Text>().text = "WAVE " + (currentWave + 1) + " COMPLETED";
+            waveCompleteText.SetActive(true);
+            Invoke("DisableCompleteText", 3f);
+            timeBetweenCurrentWave = Time.time + 7.5f;
         }
     }
 
-
-    void SpawnWave2(){
-        if(enemiesSpawnedInWave <= enemiesWavesAndAmount[1] - 1){
-            int num1 = Random.Range(0, enemySpawns.Length);
-            enemiesSpawnedInWave++;
-            Instantiate(normalEnemy, enemySpawns[num1].transform.position, Quaternion.Euler(new Vector3(180, 0, 0)));
-        } else if(endWaves == true){
-            Debug.Log("Level Complete");
-        } else{
-            Debug.Log("Wave 2 Complete");
-        }
-    }
-
-    void SpawnWave3(){
-        if(enemiesSpawnedInWave <= enemiesWavesAndAmount[2] - 1){
-            int num1 = Random.Range(0, enemySpawns.Length);
-            enemiesSpawnedInWave++;
-            Instantiate(normalEnemy, enemySpawns[num1].transform.position, Quaternion.Euler(new Vector3(180, 0, 0)));
-        } else if(endWaves == true){
-            Debug.Log("Level Complete");
-        } else{
-            Debug.Log("Wave 3 Complete");
-        }
-    }
-
-    void SpawnWave4(){
-        if(enemiesSpawnedInWave <= enemiesWavesAndAmount[3] - 1){
-            int num1 = Random.Range(0, enemySpawns.Length);
-            enemiesSpawnedInWave++;
-            Instantiate(rareEnemy, enemySpawns[num1].transform.position, Quaternion.Euler(new Vector3(180, 0, 0)));
-        } else if(endWaves == true){
-            Debug.Log("Level Complete");
-        } else{
-            Debug.Log("Wave 4 Complete");
-        }
-    }
-    void SpawnWave5(){
-        if(enemiesSpawnedInWave <= enemiesWavesAndAmount[4] - 1){
-            int num1 = Random.Range(0, enemySpawns.Length);
-            enemiesSpawnedInWave++;
-            Instantiate(legendaryEnemy, enemySpawns[num1].transform.position, Quaternion.Euler(new Vector3(180, 0, 0)));
-        } else if(endWaves == true ){
-            Debug.Log("Level Complete");
-        } else{
-            Debug.Log("Wave 5 Complete");
-        }
+    void DisableCompleteText(){
+        waveCompleteText.SetActive(false);
     }
 }
