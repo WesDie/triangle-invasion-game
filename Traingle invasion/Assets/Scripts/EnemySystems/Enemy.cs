@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
 
     Movement playerScript;
     EnemySpawn enemeySpawnScript;
+    WaveSpawner enemeyWaveScript; 
     GameObject gameScoretext;
     public float Health;
     GameObject gameManagerObject;
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         enemeySpawnScript = GameManager.GetComponent<EnemySpawn>();
+        enemeyWaveScript = GameManager.GetComponent<WaveSpawner>();
         playerScript = player.GetComponent<Movement>();
     }
 
@@ -43,6 +45,7 @@ public class Enemy : MonoBehaviour
             Instantiate(ExplosionFX, transform.position, Quaternion.identity);
             mainCamera.GetComponent<mainCamera>().TriggerShake();
             enemeySpawnScript.enemiesDestroyed = enemeySpawnScript.enemiesDestroyed + 1;
+            enemeyWaveScript.enmiesKilledInWave = enemeyWaveScript.enmiesKilledInWave + 1;
             enemeySpawnScript.score = enemeySpawnScript.score + 10;
             gameScoretext.GetComponent<Text>().text = "Score: " + enemeySpawnScript.score.ToString();
 
