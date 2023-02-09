@@ -16,6 +16,7 @@ public class projectile : MonoBehaviour
     private GameObject[] targets;
     private int targetNum;
     private bool hasTarget = false;
+    public float projectileDamage = 10;
 
     void Start()
     {

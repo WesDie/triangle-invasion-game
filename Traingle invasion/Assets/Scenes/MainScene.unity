@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 117751159}
   m_Layer: 0
   m_Name: HoldingBlockL (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1276,7 +1276,7 @@ GameObject:
   - component: {fileID: 351880962}
   m_Layer: 0
   m_Name: HoldingBlockR
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1883,7 +1883,7 @@ GameObject:
   - component: {fileID: 597505202}
   m_Layer: 0
   m_Name: RopeBlock (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2047,10 +2047,8 @@ MonoBehaviour:
   gameoverUIObject: {fileID: 1998034852}
   score: 0
   highScore: 0
-  refillvalueEffect: 0.0005
-  refillvalueLimitEffect: 0.001
   OverheatBarEffectImage: {fileID: 1004356516}
-  limitIsReachedEffect: 0
+  effectOverheatBarFillValue: 0.5
 --- !u!114 &602952420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2456,7 +2454,7 @@ GameObject:
   - component: {fileID: 946439351}
   m_Layer: 0
   m_Name: HoldingBlockL
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3072,7 +3070,7 @@ GameObject:
   - component: {fileID: 1077053845}
   m_Layer: 0
   m_Name: HoldingBlockL (1)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3840,7 +3838,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.13333334}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3858,8 +3856,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1397450287}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.16874623, y: -1.9847088, z: -3.3349316}
-  m_LocalScale: {x: 16.742502, y: 0.13622761, z: 1}
+  m_LocalPosition: {x: -0.2322, y: -2.0759, z: -3.3349316}
+  m_LocalScale: {x: 22.868658, y: 0.31862277, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 415315267}
@@ -3904,7 +3902,7 @@ GameObject:
   - component: {fileID: 1400675014}
   m_Layer: 0
   m_Name: HoldingBlockL (3)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4919,7 +4917,7 @@ GameObject:
   - component: {fileID: 2062528243}
   m_Layer: 0
   m_Name: RopeBlock
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 3455932300531552718}
   - component: {fileID: 3455932300531552753}
   - component: {fileID: 3455932300531552752}
-  - component: {fileID: 3455932300531552719}
   - component: {fileID: 72671215001286486}
   - component: {fileID: -4327568378006330299}
+  - component: {fileID: 8223417262167514155}
   m_Layer: 0
-  m_Name: Projectile
-  m_TagString: Bullet
+  m_Name: ProjectileEnemy1
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.254902, g: 0.94509804, b: 0.93812484, a: 1}
+  m_Color: {r: 0.254902, g: 0.43668127, b: 0.94509804, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -139,7 +139,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.13836473
+        value: 0.15723592
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -160,7 +160,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.25490198, g: 0.9450981, b: 0.93725497, a: 1}
+      key0: {r: 0.254902, g: 0.4020252, b: 0.94509804, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -196,27 +196,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &3455932300531552719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3455932300531552755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e197702a04e9d444b4adf57ac92fad8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  homingSpeed: 5
-  speed: 10
-  projectileHealth: 10
-  Upgrade1: 0
-  smallExplosionFX: {fileID: 918026473488870994, guid: 42dc1ad6c892e7a4986d0d31f3340917, type: 3}
-  upgrade1ExplosionFX: {fileID: 1824600303970711261, guid: 6becb8544b9a27545b806deb1469b2ad, type: 3}
-  homingBulletExplosionFX: {fileID: 0}
-  isHoming: 0
-  projectileDamage: 10
 --- !u!58 &72671215001286486
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -248,9 +227,24 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8223417262167514155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3455932300531552755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 557144fbd36254542b4cb68e2cacbf9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  projectileDamage: 1
+  explosionFX: {fileID: 1824600303970711261, guid: 6becb8544b9a27545b806deb1469b2ad, type: 3}

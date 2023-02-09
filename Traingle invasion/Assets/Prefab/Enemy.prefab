@@ -101,8 +101,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: -1
   ExplosionFX: {fileID: 1824600303970711261, guid: 2f71ed6bd7dcfe442975d5629a3897d1, type: 3}
-  smallExplosionFX: {fileID: 918026473488870994, guid: 42dc1ad6c892e7a4986d0d31f3340917, type: 3}
   Health: 10
+  isTargeted: 0
+  enemyCanShoot: 1
+  enemyShootSpeed: 3
+  shootProjectile: {fileID: 3455932300531552755, guid: 582f35654cd1d454ebb00f172ffc5fc5, type: 3}
+  kickbackForce: 200
 --- !u!50 &7476649399367903820
 Rigidbody2D:
   serializedVersion: 4

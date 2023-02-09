@@ -35,6 +35,7 @@ public class Movement : MonoBehaviour
     bool specialEffectCanPay = true;
     float effectcost = 0f;
     int homingTimedValue = 3;  
+    ManageGame ManageGameScript;
 
     void Start()
     {
@@ -52,6 +53,7 @@ public class Movement : MonoBehaviour
     {
         OverheatBarImage = ManageScript.GetComponent<ManageGame>().OverheatBarImage;
         OverheatBarEffectImage = ManageScript.GetComponent<ManageGame>().OverheatBarEffectImage;
+        ManageGameScript = ManageScript.GetComponent<ManageGame>();
 
         horizontal = Input.GetAxisRaw("Horizontal");
 
@@ -133,7 +135,7 @@ public class Movement : MonoBehaviour
             body.drag = 10f;
         }
 
-        if (Input.GetMouseButtonDown(1) && ManageScript.GetComponent<ManageGame>().limitIsReachedEffect == true && specialEffectCanPay == true)
+        if (Input.GetMouseButtonDown(1) && specialEffectCanPay == true)
         {
             if(Effect1 == true){
                 Instantiate(bulletPrefab, transform.position, Quaternion.identity);
@@ -143,6 +145,7 @@ public class Movement : MonoBehaviour
                 Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(3).transform.localRotation);
 
                 OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
+                ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
 
                 body.AddForce(transform.up * -2000f);
                 body.drag = 10f;
@@ -152,6 +155,7 @@ public class Movement : MonoBehaviour
             } else if(Effect3 == true){
                 Instantiate(bigBulletPrefab, transform.position, Quaternion.identity);
                 OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
+                ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
                 body.AddForce(transform.up * -3000f);
                 body.drag = 10f;
             } else if(Effect4 == true){    
@@ -181,6 +185,7 @@ public class Movement : MonoBehaviour
         if(homingTimedValue != 0){
                 Instantiate(homingBulletPrefab, transform.position, Quaternion.identity);
                 OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.1f;
+                ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.1f;
                 homingTimedValue--;
                 body.AddForce(transform.up * -300f);
                 body.drag = 10f;
@@ -193,6 +198,7 @@ public class Movement : MonoBehaviour
     void SpecialEffectTimed(){
             if(TimedSpecialValue != 0){
                 OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.05f;
+                ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.5f;
                 Instantiate(bulletPrefab, transform.position, Quaternion.identity);
                 body.AddForce(transform.up * -200f);
                 body.drag = 10f;

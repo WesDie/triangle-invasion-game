@@ -16,10 +16,8 @@ public class ManageGame : MonoBehaviour
     public int score;
     public int highScore;
 
-    public float refillvalueEffect = 0.001f;
-    public float refillvalueLimitEffect = 0.00000005f;
     public Image OverheatBarEffectImage;
-    public bool limitIsReachedEffect = false;
+    public float effectOverheatBarFillValue = 0.5f;
 
     void Start()
     {
@@ -43,19 +41,24 @@ public class ManageGame : MonoBehaviour
             OverheatBarImage.fillAmount = OverheatBarImage.fillAmount + refillvalue;
         }
 
-
-        if(OverheatBarEffectImage.fillAmount < 0.01){
-            limitIsReachedEffect = false;
-        } else if (OverheatBarEffectImage.fillAmount > 0.2){
-            limitIsReachedEffect = true;
+        if(effectOverheatBarFillValue <= 1){
+            OverheatBarEffectImage.fillAmount = effectOverheatBarFillValue;
+        } else{
+            effectOverheatBarFillValue = 1;
         }
+        
+        // if(OverheatBarEffectImage.fillAmount < 0.01){
+        //     limitIsReachedEffect = false;
+        // } else if (OverheatBarEffectImage.fillAmount > 0.2){
+        //     limitIsReachedEffect = true;
+        // }
 
-        if(limitIsReachedEffect == false){
-            OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount + refillvalueEffect;
+        // if(limitIsReachedEffect == false){
+        //     OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount + refillvalueEffect;
 
-        } else if (limitIsReachedEffect == true){
-            OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount + refillvalueLimitEffect;
-        }
+        // } else if (limitIsReachedEffect == true){
+        //     OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount + refillvalueLimitEffect;
+        // }
     }
 
     public void Save(){

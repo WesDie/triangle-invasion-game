@@ -216,6 +216,7 @@ MonoBehaviour:
   upgrade1ExplosionFX: {fileID: 1824600303970711261, guid: 6becb8544b9a27545b806deb1469b2ad, type: 3}
   homingBulletExplosionFX: {fileID: 0}
   isHoming: 0
+  projectileDamage: 100
 --- !u!58 &72671215001286486
 CircleCollider2D:
   m_ObjectHideFlags: 0

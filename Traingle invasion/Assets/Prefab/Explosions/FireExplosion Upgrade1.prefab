@@ -4882,10 +4882,9 @@ GameObject:
   - component: {fileID: 1824600303970711261}
   - component: {fileID: 1824600303970711262}
   - component: {fileID: 346421966029919442}
-  - component: {fileID: 1195702275815050500}
   m_Layer: 0
   m_Name: FireExplosion Upgrade1
-  m_TagString: Bullet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9757,22 +9756,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5007167d3bf5c34bb548b4449aa57e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!58 &1195702275815050500
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824600303970711263}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 2
 --- !u!1 &4697871858793267530
 GameObject:
   m_ObjectHideFlags: 0
