@@ -36,6 +36,7 @@ public class Movement : MonoBehaviour
     float effectcost = 0f;
     int homingTimedValue = 3;  
     ManageGame ManageGameScript;
+    public float health = 100f;
 
     void Start()
     {
@@ -58,6 +59,11 @@ public class Movement : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
 
         specialEffect -= Input.GetAxis("Mouse ScrollWheel");
+
+        if(health <= 0f){
+            gameOverisOn = true;
+            ManageGameScript.OpenGameOverMenu();
+        }
 
         if(specialEffect > 0.8f){
             specialEffect = 0;

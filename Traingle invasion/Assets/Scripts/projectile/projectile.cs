@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class projectile : MonoBehaviour
 {
-    public float homingSpeed = 5;
+    [Header("Projectile Settings")]
     public float speed = 20;
     public float projectileHealth = 10;
     public bool Upgrade1 = false;
+    public bool isHoming = false;
+    public float projectileDamage = 10;
     public ParticleSystem smallExplosionFX;
-    GameObject mainCamera;
+    [Header("Special Projectile Settings")]
+    public float homingSpeed = 5;
     public ParticleSystem upgrade1ExplosionFX;
     public ParticleSystem homingBulletExplosionFX;
-    public bool isHoming = false;
-    private GameObject[] targets;
-    private int targetNum;
+
     private bool hasTarget = false;
-    public float projectileDamage = 10;
+    private int targetNum;
+    private GameObject[] targets;
+    GameObject mainCamera;
 
     void Start()
     {

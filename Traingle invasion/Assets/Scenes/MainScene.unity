@@ -168,6 +168,7 @@ MonoBehaviour:
   refrencePos: {fileID: 1451543331}
   specialEffect: 0
   specialEffectList: {fileID: 1118753696}
+  health: 100
 --- !u!50 &66720571
 Rigidbody2D:
   serializedVersion: 4

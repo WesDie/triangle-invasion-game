@@ -8,12 +8,22 @@ public class EnemyProjectile : MonoBehaviour
     public float speed = 20f;
     public float projectileDamage = 1f;
     public ParticleSystem explosionFX;
+    public enum damageType
+    {
+        effectDamage, 
+        overheatDamage, 
+        healthDamage
+    }
+
+    public damageType selectedDamageType;
 
 
     ManageGame manageGameScript;
+    Movement playerScript;
 
     void Start()
     {
+        playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
         manageGameScript = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ManageGame>();
     }
 
@@ -26,9 +36,16 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            if(selectedDamageType == damageType.effectDamage){
+                manageGameScript.effectOverheatBarFillValue =  manageGameScript.effectOverheatBarFillValue - projectileDamage;
+            } else if(selectedDamageType == damageType.overheatDamage){
+                manageGameScript.OverheatBarImage.fillAmount = manageGameScript.OverheatBarImage.fillAmount - projectileDamage;
+            } else if(selectedDamageType == damageType.healthDamage){
+                playerScript.health = playerScript.health - projectileDamage;
+            }
+
             Destroy(gameObject);
             Instantiate(explosionFX, transform.position, Quaternion.identity);
-            manageGameScript.effectOverheatBarFillValue =  manageGameScript.effectOverheatBarFillValue - 0.2f;
             
         }
         if (other.tag == "Ground")

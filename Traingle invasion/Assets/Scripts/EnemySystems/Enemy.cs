@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     public ParticleSystem ExplosionFX;
     public float Health;
     public bool isTargeted = false;
+    public float enemyEffectReward = 0.02f;
 
     [Header("Enemy Shoot Settings")]
     public bool enemyCanShoot = false;
@@ -66,7 +67,7 @@ public class Enemy : MonoBehaviour
             mainCamera.GetComponent<mainCamera>().TriggerShake();
             enemeyWaveScript.enmiesKilledInWave = enemeyWaveScript.enmiesKilledInWave + 1;
             manageGameScript.score = manageGameScript.score + 10;
-            manageGameScript.effectOverheatBarFillValue = manageGameScript.effectOverheatBarFillValue + 0.02f;
+            manageGameScript.effectOverheatBarFillValue = manageGameScript.effectOverheatBarFillValue + enemyEffectReward;
             gameScoretext.GetComponent<Text>().text = "Score: " + manageGameScript.score.ToString();
 
             Destroy(gameObject);
