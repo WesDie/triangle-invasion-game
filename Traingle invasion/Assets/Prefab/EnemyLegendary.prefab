@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 53dbd8d400000000
+  m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
   enemyCanShoot: 1
   enemyShootSpeed: 2
   shootProjectile: {fileID: 3455932300531552755, guid: b1beb1bd3bf473546a232c52d73086c2, type: 3}
-  kickbackForce: 1
+  kickbackForce: 500
 --- !u!50 &7476649399367903820
 Rigidbody2D:
   serializedVersion: 4

@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3455932300531552755}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.02, y: -2.58, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2142332848459562537}
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 8f44082cdd8470c41a259306276251b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 34e5af1c0ae92f045a293994353fa194, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -140,7 +140,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.13836473
+        value: 0.06735033
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -209,15 +209,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e197702a04e9d444b4adf57ac92fad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  homingSpeed: 5
   speed: 10
   projectileHealth: 10
   Upgrade1: 0
-  smallExplosionFX: {fileID: 918026473488870994, guid: 42dc1ad6c892e7a4986d0d31f3340917, type: 3}
-  upgrade1ExplosionFX: {fileID: 1824600303970711261, guid: 6becb8544b9a27545b806deb1469b2ad, type: 3}
-  homingBulletExplosionFX: {fileID: 918026473488870994, guid: 39773a37ce55bb24086d532e0ecc2904, type: 3}
   isHoming: 1
   projectileDamage: 10
+  smallExplosionFX: {fileID: 918026473488870994, guid: 42dc1ad6c892e7a4986d0d31f3340917, type: 3}
+  homingSpeed: 5
+  upgrade1ExplosionFX: {fileID: 1824600303970711261, guid: 6becb8544b9a27545b806deb1469b2ad, type: 3}
+  homingBulletExplosionFX: {fileID: 918026473488870994, guid: 39773a37ce55bb24086d532e0ecc2904, type: 3}
 --- !u!58 &72671215001286486
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_Intensity: 0.5
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 0000000053dbd8d4
+  m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

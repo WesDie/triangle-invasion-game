@@ -10,6 +10,14 @@ public class Movement : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject bigBulletPrefab;
     public GameObject homingBulletPrefab;
+    public bool canDash = true;
+    public bool isDashing;
+    private float dashingSpeed = 10f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
+    bool firstButtonPressed = false;
+    float timeOfFirstButton;
+    bool dashReset = false;
 
     float horizontal;
 
@@ -52,6 +60,10 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        if(isDashing && gameOverisOn == false){
+            return;
+        }
+
         OverheatBarImage = ManageScript.GetComponent<ManageGame>().OverheatBarImage;
         OverheatBarEffectImage = ManageScript.GetComponent<ManageGame>().OverheatBarEffectImage;
         ManageGameScript = ManageScript.GetComponent<ManageGame>();
@@ -121,17 +133,41 @@ public class Movement : MonoBehaviour
             CantPayEffectImage.SetActive(false);
         }
 
-        if (Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true)
-        {
-            Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
-            OverheatBarImage.fillAmount = OverheatBarImage.fillAmount - cooldownValue;
-
-            body.AddForce(transform.up * shootSpeed);
-            body.drag = 10f;
+        if(canDash){
+            if(Input.GetKeyDown(KeyCode.A) && firstButtonPressed){
+                if(Time.time - timeOfFirstButton < 0.2f) {
+                    StartCoroutine(DashLeft());
+                }
+    
+                dashReset = true;
+            }
+            if(Input.GetKeyDown(KeyCode.A) && !firstButtonPressed) {
+                firstButtonPressed = true;
+                timeOfFirstButton = Time.time;
+            }
+            if(dashReset) {
+                firstButtonPressed = false;
+                dashReset = false;
+            }
+            if(Input.GetKeyDown(KeyCode.D) && firstButtonPressed){
+                if(Time.time - timeOfFirstButton < 0.2f) {
+                    StartCoroutine(DashRight());
+                }
+    
+                dashReset = true;
+            }
+            if(Input.GetKeyDown(KeyCode.D) && !firstButtonPressed) {
+                firstButtonPressed = true;
+                timeOfFirstButton = Time.time;
+            }
+            if(dashReset) {
+                firstButtonPressed = false;
+                dashReset = false;
+            }
         }
 
-        if (Input.GetMouseButtonDown(0) && ManageScript.GetComponent<ManageGame>().limitIsReached == true)
+        if (Input.GetMouseButtonDown(0) && ManageScript.GetComponent<ManageGame>().limitIsReached == true || Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true)
         {
             Instantiate(bulletPrefab, transform.position, Quaternion.identity);
 
@@ -217,8 +253,31 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(isDashing && gameOverisOn == false){
+            return;
+        }
+
         refrencePos.transform.position = new Vector2(transform.position.x, -8);
         transform.position = Vector2.MoveTowards(transform.position, refrencePos.transform.position, returnSpeed * Time.deltaTime);
         body.velocity = new Vector2(horizontal * runSpeed, body.velocity.y);
+    }
+
+    private IEnumerator DashLeft(){
+        canDash = false;
+        isDashing = true;
+        body.velocity = new Vector2(transform.localScale.x * -dashingSpeed, 0f);
+        yield return new WaitForSeconds(dashingTime);
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
+    }
+    private IEnumerator DashRight(){
+        canDash = false;
+        isDashing = true;
+        body.velocity = new Vector2(transform.localScale.x * dashingSpeed, 0f);
+        yield return new WaitForSeconds(dashingTime);
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 }

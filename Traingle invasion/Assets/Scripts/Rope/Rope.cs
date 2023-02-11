@@ -19,7 +19,6 @@ public class Rope : MonoBehaviour
     public int indexPlayerPos;
 
     public GameObject followTarget;
-
     void Start()
     {
         Vector3 ropeStartPoint = new Vector3(0, 0, 0);
