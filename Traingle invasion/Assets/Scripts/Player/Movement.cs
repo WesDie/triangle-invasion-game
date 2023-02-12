@@ -10,14 +10,6 @@ public class Movement : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject bigBulletPrefab;
     public GameObject homingBulletPrefab;
-    public bool canDash = true;
-    public bool isDashing;
-    private float dashingSpeed = 10f;
-    private float dashingTime = 0.2f;
-    private float dashingCooldown = 1f;
-    bool firstButtonPressed = false;
-    float timeOfFirstButton;
-    bool dashReset = false;
 
     float horizontal;
 
@@ -26,6 +18,12 @@ public class Movement : MonoBehaviour
     public float returnSpeed = 0.1f;
 
     public bool gameOverisOn = false;
+
+    public float floatHeight;
+    public float liftForce;    
+    public float damping; 
+
+    public GameObject playerGun;
 
     public float cooldownValue = 0.10f;
     private Image OverheatBarImage;
@@ -50,6 +48,7 @@ public class Movement : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         ManageScript = GameObject.FindGameObjectWithTag("GameManager");
+        ManageGameScript = ManageScript.GetComponent<ManageGame>();
 
         Effect1 = true;
         Effect2 = false;
@@ -60,13 +59,9 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        if(isDashing && gameOverisOn == false){
-            return;
-        }
 
         OverheatBarImage = ManageScript.GetComponent<ManageGame>().OverheatBarImage;
         OverheatBarEffectImage = ManageScript.GetComponent<ManageGame>().OverheatBarEffectImage;
-        ManageGameScript = ManageScript.GetComponent<ManageGame>();
 
         horizontal = Input.GetAxisRaw("Horizontal");
 
@@ -133,43 +128,9 @@ public class Movement : MonoBehaviour
             CantPayEffectImage.SetActive(false);
         }
 
-
-        if(canDash){
-            if(Input.GetKeyDown(KeyCode.A) && firstButtonPressed){
-                if(Time.time - timeOfFirstButton < 0.2f) {
-                    StartCoroutine(DashLeft());
-                }
-    
-                dashReset = true;
-            }
-            if(Input.GetKeyDown(KeyCode.A) && !firstButtonPressed) {
-                firstButtonPressed = true;
-                timeOfFirstButton = Time.time;
-            }
-            if(dashReset) {
-                firstButtonPressed = false;
-                dashReset = false;
-            }
-            if(Input.GetKeyDown(KeyCode.D) && firstButtonPressed){
-                if(Time.time - timeOfFirstButton < 0.2f) {
-                    StartCoroutine(DashRight());
-                }
-    
-                dashReset = true;
-            }
-            if(Input.GetKeyDown(KeyCode.D) && !firstButtonPressed) {
-                firstButtonPressed = true;
-                timeOfFirstButton = Time.time;
-            }
-            if(dashReset) {
-                firstButtonPressed = false;
-                dashReset = false;
-            }
-        }
-
-        if (Input.GetMouseButtonDown(0) && ManageScript.GetComponent<ManageGame>().limitIsReached == true || Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true)
+        if (Input.GetMouseButtonDown(0) && ManageScript.GetComponent<ManageGame>().limitIsReached == true && ManageGameScript.inCombat == true || Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true && ManageGameScript.inCombat == true)
         {
-            Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            Instantiate(bulletPrefab, playerGun.transform.position, playerGun.transform.rotation);
 
             OverheatBarImage.fillAmount = OverheatBarImage.fillAmount - cooldownValue;
 
@@ -177,7 +138,7 @@ public class Movement : MonoBehaviour
             body.drag = 10f;
         }
 
-        if (Input.GetMouseButtonDown(1) && specialEffectCanPay == true)
+        if (Input.GetMouseButtonDown(1) && specialEffectCanPay == true && ManageGameScript.inCombat == true)
         {
             if(Effect1 == true){
                 Instantiate(bulletPrefab, transform.position, Quaternion.identity);
@@ -232,8 +193,6 @@ public class Movement : MonoBehaviour
                 body.AddForce(transform.up * -300f);
                 body.drag = 10f;
                 Invoke("HomingBulletTimed", 0.15f);
-        } else{
-
         }
     }
 
@@ -246,38 +205,48 @@ public class Movement : MonoBehaviour
                 body.drag = 10f;
                 TimedSpecialValue--;
                 Invoke("SpecialEffectTimed", 0.15f);
-            } else{
-
             }
     }
 
+    public LayerMask groundLayer;
+    public float maxRayLength = 300;
+    public Transform[] anchors = new Transform[2];
+    public RaycastHit2D[] hits = new RaycastHit2D[2];
+
     private void FixedUpdate()
     {
-        if(isDashing && gameOverisOn == false){
-            return;
+        body.velocity = new Vector2(horizontal * runSpeed, body.velocity.y);
+
+        for (int i = 0; i < 2; i++){
+            ApplyF(anchors[i], hits[i]);
         }
 
-        refrencePos.transform.position = new Vector2(transform.position.x, -8);
-        transform.position = Vector2.MoveTowards(transform.position, refrencePos.transform.position, returnSpeed * Time.deltaTime);
-        body.velocity = new Vector2(horizontal * runSpeed, body.velocity.y);
+        // var dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+        // var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        // playerGun.transform.rotation = Quaternion.AngleAxis(angle -90, Vector3.forward);
+
     }
 
-    private IEnumerator DashLeft(){
-        canDash = false;
-        isDashing = true;
-        body.velocity = new Vector2(transform.localScale.x * -dashingSpeed, 0f);
-        yield return new WaitForSeconds(dashingTime);
-        isDashing = false;
-        yield return new WaitForSeconds(dashingCooldown);
-        canDash = true;
+    void ApplyF(Transform anchor, RaycastHit2D hit){
+
+        hit = Physics2D.Raycast(anchor.position, Vector3.down, maxRayLength, groundLayer.value);
+    
+        if (hit) {
+            float distance = Mathf.Abs(hit.point.y - transform.position.y);
+
+            float heightError = floatHeight - distance;
+
+            float force = liftForce * heightError - body.velocity.y * damping;
+
+            body.AddForceAtPosition(Vector3.up * force, anchor.position, ForceMode2D.Force);
+        }
     }
-    private IEnumerator DashRight(){
-        canDash = false;
-        isDashing = true;
-        body.velocity = new Vector2(transform.localScale.x * dashingSpeed, 0f);
-        yield return new WaitForSeconds(dashingTime);
-        isDashing = false;
-        yield return new WaitForSeconds(dashingCooldown);
-        canDash = true;
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "CombatArea")
+        {
+            ManageGameScript.inCombat = true;
+        }
     }
 }

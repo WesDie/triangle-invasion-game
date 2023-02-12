@@ -33,6 +33,7 @@ public class WaveSpawner : MonoBehaviour
 
     bool endWaves;
     float timeBetweenCurrentWave;
+    float timeBeforeFirstWave;
     int enemiesSpawnedInWave;
     bool waveComplete = false;
     bool levelComplete = false;
@@ -41,7 +42,9 @@ public class WaveSpawner : MonoBehaviour
 
     void Start()
     {
-        timeBetweenCurrentWave = 5f;
+        currentWaveText.enabled = true;
+        timeBetweenCurrentWave = Time.time + 5f;
+        timeBeforeFirstWave = Time.time + 5f;
         currentWaveText.text = "Wave 1: 0/" + waveInfo[0].amountOfEnemies;
         var tmp = new Waves();
         waveCompleteText.SetActive(false);
@@ -74,7 +77,7 @@ public class WaveSpawner : MonoBehaviour
             levelComplete = true;
         }
 
-        if(Time.time >= 5f && levelComplete == false && endWaves == false){
+        if(Time.time >= timeBeforeFirstWave && levelComplete == false && endWaves == false){
             currentWaveText.text = "Wave " + (currentWave + 1) + ": " + enmiesKilledInWave + "/" + waveInfo[currentWave].amountOfEnemies;
         } else{
             currentWaveText.text = "Wave 0: 0/0";

@@ -13,11 +13,14 @@ public class ManageGame : MonoBehaviour
     public bool limitIsReached = false;
     public GameObject gameUIObject;
     public GameObject gameoverUIObject;
+    public GameObject backpackUIObject;
     public int score;
     public int highScore;
 
     public Image OverheatBarEffectImage;
     public float effectOverheatBarFillValue = 0.5f;
+    public bool inCombat = false;
+    public mainCamera mainCameraScript;
 
     void Start()
     {
@@ -25,9 +28,18 @@ public class ManageGame : MonoBehaviour
         gameoverUIObject.SetActive(false);
     }
 
+    void Update(){
+        if (Input.GetKeyDown(KeyCode.M) && inCombat == false){
+            Time.timeScale = 0;
+            backpackUIObject.SetActive(true);
+            gameUIObject.SetActive(false);
+            OpenBackpack();
+        }
+    }
 
     void FixedUpdate()
     {
+
         if(OverheatBarImage.fillAmount < 0.01){
             limitIsReached = false;
         } else if (OverheatBarImage.fillAmount > 0.2){
@@ -46,19 +58,15 @@ public class ManageGame : MonoBehaviour
         } else{
             effectOverheatBarFillValue = 1;
         }
-        
-        // if(OverheatBarEffectImage.fillAmount < 0.01){
-        //     limitIsReachedEffect = false;
-        // } else if (OverheatBarEffectImage.fillAmount > 0.2){
-        //     limitIsReachedEffect = true;
-        // }
 
-        // if(limitIsReachedEffect == false){
-        //     OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount + refillvalueEffect;
+        if (inCombat == true){
+            GetComponent<WaveSpawner>().enabled = true;
+            mainCameraScript.isInCombat = true;
 
-        // } else if (limitIsReachedEffect == true){
-        //     OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount + refillvalueLimitEffect;
-        // }
+            GameObject.Find("pillarRight").GetComponent<Collider2D>().enabled = true;
+            GameObject.Find("pillarLeft").GetComponent<Collider2D>().enabled = true;
+
+        }
     }
 
     public void Save(){
@@ -72,6 +80,10 @@ public class ManageGame : MonoBehaviour
     }
     
     public void GotoMainMenu(){
+
+    }
+
+    public void OpenBackpack(){
 
     }
 

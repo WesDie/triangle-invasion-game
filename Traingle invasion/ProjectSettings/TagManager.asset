@@ -9,6 +9,7 @@ TagManager:
   - GameManager
   - EnemyBullet
   - Ground
+  - CombatArea
   layers:
   - Default
   - TransparentFX
@@ -18,7 +19,7 @@ TagManager:
   - UI
   - PostProcessing
   - Background
-  - 
+  - Ground
   - 
   - 
   - 

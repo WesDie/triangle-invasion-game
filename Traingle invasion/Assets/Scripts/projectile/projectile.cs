@@ -55,6 +55,8 @@ public class projectile : MonoBehaviour
                     targets[targetNum].transform.position,
                     homingSpeed * Time.deltaTime
                 );
+                Vector3 targetPosFlattened = new Vector3(targets[targetNum].transform.position.x, targets[targetNum].transform.position.y, 0);
+                transform.LookAt(targetPosFlattened);
             }
             else if (targets[targetNum] == null)
             {

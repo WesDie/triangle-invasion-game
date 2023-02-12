@@ -12,24 +12,33 @@ public class mainCamera : MonoBehaviour
     private float dampingSpeed = 0.1f;
     
     Vector3 initialPosition;
+    public bool isInCombat = false;
+
+    public float followSpeed;
+    public Transform target;
 
     void OnEnable()
     {
-        initialPosition = transform.localPosition;
+        initialPosition = new Vector3(0, -5f, -10f);;
     }
 
     void Update()
     {
-        if (shakeDuration > 0)
-        {
-            transform.localPosition = initialPosition + Random.insideUnitSphere * shakeMagnitude;
-        
-            shakeDuration -= Time.deltaTime * dampingSpeed;
-        }
-        else
-        {
-            shakeDuration = 0f;
-            transform.localPosition = initialPosition;
+        if(isInCombat == true){
+            if (shakeDuration > 0)
+            {
+                transform.localPosition = initialPosition + Random.insideUnitSphere * shakeMagnitude;
+            
+                shakeDuration -= Time.deltaTime * dampingSpeed;
+            }
+            else
+            {
+                shakeDuration = 0f;
+                transform.localPosition =  Vector3.Slerp(transform.position, initialPosition, 2f * Time.deltaTime);;
+            }
+        } else{
+            Vector3 newPos = new Vector3(target.position.x, -5f, -10f);
+            transform.position = Vector3.Slerp(transform.position, newPos, followSpeed * Time.deltaTime);
         }
     }
 
