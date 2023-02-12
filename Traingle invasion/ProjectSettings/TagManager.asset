@@ -10,6 +10,7 @@ TagManager:
   - EnemyBullet
   - Ground
   - CombatArea
+  - backpackmain
   layers:
   - Default
   - TransparentFX

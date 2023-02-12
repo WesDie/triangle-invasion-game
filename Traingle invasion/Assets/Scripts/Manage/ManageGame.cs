@@ -30,9 +30,6 @@ public class ManageGame : MonoBehaviour
 
     void Update(){
         if (Input.GetKeyDown(KeyCode.M) && inCombat == false){
-            Time.timeScale = 0;
-            backpackUIObject.SetActive(true);
-            gameUIObject.SetActive(false);
             OpenBackpack();
         }
     }
@@ -84,7 +81,15 @@ public class ManageGame : MonoBehaviour
     }
 
     public void OpenBackpack(){
+        Time.timeScale = 0;
+        backpackUIObject.SetActive(true);
+        gameUIObject.SetActive(false);
+    }
 
+    public void Closebackpack(){
+        Time.timeScale = 1;
+        backpackUIObject.SetActive(false);
+        gameUIObject.SetActive(true);
     }
 
     public void OpenGameOverMenu(){
