@@ -3,24 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler 
 {
-    Backpack backpackScript;
-
-    public Image thisImage;
     public bool isEquiped = false;
+    public string itemDescription;
+    public int level;
+    public string itemName;
+
+    Vector3 startPos;
+    Backpack backpackScript;
+    Image thisImage;
+    GameObject mainEquipedAbObject;
+    GameObject mainUnEquipedAbObject;
+
+    GameObject itemDescriptionText;
+    GameObject itemDescriptionTextTitle;
+
+    
 
     void Start(){
         backpackScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Backpack>();
 
+        itemDescriptionText = GameObject.Find("AbDescText");
+        itemDescriptionTextTitle = GameObject.Find("AbDescTitleText");
+
         thisImage = GetComponent<Image>();
+        startPos = transform.localPosition;
     }
 
     public void OnBeginDrag(PointerEventData eventData){
         if(isEquiped == false){
             thisImage.raycastTarget = false;
-            transform.parent.gameObject.GetComponent<GridLayoutGroup>().enabled = false;
         }
     }
 
@@ -34,13 +49,42 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnEndDrag(PointerEventData eventData){
         if(isEquiped == false){
             thisImage.raycastTarget = true;
-            transform.parent.gameObject.GetComponent<GridLayoutGroup>().enabled = true;
+            gameObject.GetComponent<RectTransform>().localPosition = startPos;
         }
     }
 
-    public void ReloadGrid(){
-        transform.parent.gameObject.GetComponent<GridLayoutGroup>().enabled = false;
-        transform.parent.gameObject.GetComponent<GridLayoutGroup>().enabled = true;
+    public void ChangeToEquiped(int slotEquipIndex){
+        for (int i = 3; i > -1; i--)
+        {
+            if(i == slotEquipIndex){
+                mainEquipedAbObject = GameObject.FindGameObjectWithTag("EquipedAbilitiesSlots").transform.GetChild(i).gameObject;
+                        
+                if(mainEquipedAbObject.transform.childCount == 0){
+                    transform.SetParent(mainEquipedAbObject.transform);
+                    transform.GetChild(0).gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+    public void ChangeToUnEquiped(){
+        for (int i = 17; i > -1; i--)
+        {
+            mainUnEquipedAbObject = GameObject.FindGameObjectWithTag("UnEquipedAbilitiesSlots").transform.GetChild(0).transform.GetChild(i).gameObject;
+                    
+            if(mainUnEquipedAbObject.transform.childCount == 0){
+                transform.SetParent(mainUnEquipedAbObject.transform);
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
+            isEquiped = false;
+            thisImage.raycastTarget = true;
+            gameObject.GetComponent<RectTransform>().localPosition = startPos;
+        }
+    }
+
+    public void ShowInfoOfItem(){
+        itemDescriptionTextTitle.GetComponent<TMP_Text>().text = itemName;
+        itemDescriptionText.GetComponent<TMP_Text>().text = itemDescription;
     }
 
 }

@@ -6,22 +6,34 @@ using UnityEngine.EventSystems;
 public class DropSlot : MonoBehaviour, IDropHandler
 {
     public string slotName;
-    public GameObject mainEquipedAbObject;
+    bool slotisFull;
+    public bool isUnequipedSlot = true;
+    Backpack backpackScript;
+    public int slotEquipIndex;
+
+    void Start(){
+        backpackScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Backpack>();
+    }
+
+    void Update(){
+        if(transform.childCount == 0){
+            slotisFull = false;
+        } else{
+            slotisFull = true;
+        }
+    }
 
     public void OnDrop(PointerEventData eventData){
+        if(eventData.pointerDrag.transform.name == slotName && !slotisFull){
             ItemSlot draggable = eventData.pointerDrag.GetComponent<ItemSlot>();
             if(draggable != null){
-                for (int i = 0; i < 4; i++)
-                {
-                    mainEquipedAbObject = GameObject.FindGameObjectWithTag("EquipedAbilitiesSlots").transform.GetChild(i).gameObject;
-                    
-                    if(mainEquipedAbObject.transform.childCount == 0){
-                        draggable.isEquiped = true;
-                        draggable.ReloadGrid();
-                        transform.SetParent(mainEquipedAbObject.transform);
-                        break;
-                    }
-                }
+                draggable.isEquiped = true;
+                draggable.ChangeToEquiped(slotEquipIndex);
+                backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedName = transform.GetChild(0).GetComponent<ItemSlot>().itemName;
+                backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedLevel = transform.GetChild(0).GetComponent<ItemSlot>().level;
+                backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedDesc = transform.GetChild(0).GetComponent<ItemSlot>().itemDescription;
+                backpackScript.AbillitiesEquipedInfo[slotEquipIndex].isEquiped = true;
             }
+        }
     }
 }

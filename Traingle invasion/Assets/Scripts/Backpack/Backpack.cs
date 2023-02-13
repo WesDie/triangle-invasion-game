@@ -21,11 +21,21 @@ public class Backpack : MonoBehaviour
 
     [System.Serializable]
     public class Abillities{
+        public string abillityName;
         public Sprite abillityImage;
         public int abillityLevel;
         public string abillityDesc;
     }
     public Abillities[] abillityInfo;
+
+    [System.Serializable]
+    public class AbillitiesEquiped{
+        public string AbillitiesEquipedName;
+        public int AbillitiesEquipedLevel;
+        public string AbillitiesEquipedDesc;
+        public bool isEquiped = false;
+    }
+    public AbillitiesEquiped[] AbillitiesEquipedInfo = new AbillitiesEquiped[4];
 
     void Start(){
         mapMenu = backpackMainObject.transform.GetChild(6).gameObject;

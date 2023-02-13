@@ -15,14 +15,14 @@ public class ItemsGrid : MonoBehaviour
     }
 
 
-    void ReloadBackpackAb(){
+    public void ReloadBackpackAb(){
         for (int i = 0; i < backpackScript.abillityInfo.Length; i++)
         {
-            GameObject slot = Instantiate(slotPrefab);
-            originalSize = slotPrefab.transform.localScale;
-            slot.transform.SetParent(transform);
-            slot.transform.localScale = originalSize;
-            slot.transform.GetChild(0).GetComponent<Image>().sprite = backpackScript.abillityInfo[i].abillityImage;
+
+            transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = backpackScript.abillityInfo[i].abillityImage;
+            transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemName = backpackScript.abillityInfo[i].abillityName;
+            transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemDescription = backpackScript.abillityInfo[i].abillityDesc;
         }
     }
 }

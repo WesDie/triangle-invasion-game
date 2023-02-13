@@ -12,6 +12,7 @@ TagManager:
   - CombatArea
   - backpackmain
   - EquipedAbilitiesSlots
+  - UnEquipedAbilitiesSlots
   layers:
   - Default
   - TransparentFX
