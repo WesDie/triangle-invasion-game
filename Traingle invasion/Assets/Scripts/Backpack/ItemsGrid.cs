@@ -11,6 +11,11 @@ public class ItemsGrid : MonoBehaviour
 
     void Start(){
         backpackScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Backpack>();
+    }
+
+    void OnEnable()
+    {
+        backpackScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Backpack>();
         ReloadBackpackAb();
     }
 
@@ -18,11 +23,12 @@ public class ItemsGrid : MonoBehaviour
     public void ReloadBackpackAb(){
         for (int i = 0; i < backpackScript.abillityInfo.Length; i++)
         {
-
-            transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
-            transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = backpackScript.abillityInfo[i].abillityImage;
-            transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemName = backpackScript.abillityInfo[i].abillityName;
-            transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemDescription = backpackScript.abillityInfo[i].abillityDesc;
+            if(backpackScript.abillityInfo[i].hasFound == true && transform.GetChild(i).childCount != 0){
+                transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+                transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = backpackScript.abillityInfo[i].abillityImage;
+                transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemName = backpackScript.abillityInfo[i].abillityName;
+                transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemDescription = backpackScript.abillityInfo[i].abillityDesc;
+            }
         }
     }
 }

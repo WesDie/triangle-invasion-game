@@ -33,10 +33,7 @@ public class Movement : MonoBehaviour
     public GameObject refrencePos;
     public float specialEffect = 0;
     public GameObject specialEffectList;
-    bool Effect1 = true;
-    bool Effect2 = false;
-    bool Effect3 = false;
-    bool Effect4 = false;
+    public int currentEffectIndex = 0;
     int TimedSpecialValue = 10;
     bool specialEffectCanPay = true;
     float effectcost = 0f;
@@ -50,10 +47,6 @@ public class Movement : MonoBehaviour
         ManageScript = GameObject.FindGameObjectWithTag("GameManager");
         ManageGameScript = ManageScript.GetComponent<ManageGame>();
 
-        Effect1 = true;
-        Effect2 = false;
-        Effect3 = false;
-        Effect4 = false;
         effectcost = 0.2f;
     }
 
@@ -83,40 +76,28 @@ public class Movement : MonoBehaviour
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(2).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(3).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
-            Effect1 = true;
-            Effect2 = false;
-            Effect3 = false;
-            Effect4 = false;
+            currentEffectIndex = 0;
             effectcost = 0.2f;
         } else if(specialEffect > 0.2 && specialEffect < 0.4){
             specialEffectList.transform.GetChild(0).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 1f);
             specialEffectList.transform.GetChild(2).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(3).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
-            Effect1 = false;
-            Effect2 = true;
-            Effect3 = false;
-            Effect4 = false;
+            currentEffectIndex = 1;
             effectcost = 0.5f;
         } else if(specialEffect > 0.4 && specialEffect < 0.6){
             specialEffectList.transform.GetChild(0).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(2).GetComponent<Image>().color = new Color(255f, 255f, 255f, 1f);
             specialEffectList.transform.GetChild(3).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
-            Effect1 = false;
-            Effect2 = false;
-            Effect3 = true;
-            Effect4 = false;
+            currentEffectIndex = 2;
             effectcost = 0.2f;
         } else if(specialEffect > 0.6 && specialEffect < 0.8){
             specialEffectList.transform.GetChild(0).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(2).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(3).GetComponent<Image>().color = new Color(255f, 255f, 255f, 1f);
-            Effect1 = false;
-            Effect2 = false;
-            Effect3 = false;
-            Effect4 = true;
+            currentEffectIndex = 3;
             effectcost = 0.3f;
         }
 
@@ -140,7 +121,7 @@ public class Movement : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1) && specialEffectCanPay == true && ManageGameScript.inCombat == true)
         {
-            if(Effect1 == true){
+            if(currentEffectIndex == 0 && GetComponent<Backpack>().AbillitiesEquipedInfo[currentEffectIndex].AbillitiesEquipedName == "Multiple"){
                 Instantiate(bulletPrefab, transform.position, Quaternion.identity);
                 Instantiate(bulletPrefab, gameObject.transform.GetChild(0).transform.position, gameObject.transform.GetChild(0).transform.localRotation);
                 Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(1).transform.localRotation);
@@ -152,16 +133,16 @@ public class Movement : MonoBehaviour
 
                 body.AddForce(transform.up * -2000f);
                 body.drag = 10f;
-            } else if(Effect2 == true){
+            } else if(currentEffectIndex == 1){
                 TimedSpecialValue = 10;
                 SpecialEffectTimed();
-            } else if(Effect3 == true){
+            } else if(currentEffectIndex == 2){
                 Instantiate(bigBulletPrefab, transform.position, Quaternion.identity);
                 OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
                 ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
                 body.AddForce(transform.up * -3000f);
                 body.drag = 10f;
-            } else if(Effect4 == true){    
+            } else if(currentEffectIndex == 3){    
                 homingTimedValue = 3;       
                 HomingBulletTimed();
             }

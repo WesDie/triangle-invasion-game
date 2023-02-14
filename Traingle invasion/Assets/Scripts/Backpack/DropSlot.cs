@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DropSlot : MonoBehaviour, IDropHandler
 {
@@ -32,6 +33,7 @@ public class DropSlot : MonoBehaviour, IDropHandler
                 backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedName = transform.GetChild(0).GetComponent<ItemSlot>().itemName;
                 backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedLevel = transform.GetChild(0).GetComponent<ItemSlot>().level;
                 backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedDesc = transform.GetChild(0).GetComponent<ItemSlot>().itemDescription;
+                backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedImage = transform.GetChild(0).GetComponent<Image>().sprite;
                 backpackScript.AbillitiesEquipedInfo[slotEquipIndex].isEquiped = true;
             }
         }

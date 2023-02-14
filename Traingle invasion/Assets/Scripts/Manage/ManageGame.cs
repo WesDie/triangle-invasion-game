@@ -21,10 +21,12 @@ public class ManageGame : MonoBehaviour
     public float effectOverheatBarFillValue = 0.5f;
     public bool inCombat = false;
     public mainCamera mainCameraScript;
+    Backpack backpackScript;
 
     void Start()
     {
         OverheatBarImage = OverheatBar.GetComponent<Image>();
+        backpackScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Backpack>();
         gameoverUIObject.SetActive(false);
     }
 
@@ -90,6 +92,7 @@ public class ManageGame : MonoBehaviour
         Time.timeScale = 1;
         backpackUIObject.SetActive(false);
         gameUIObject.SetActive(true);
+        backpackScript.UpdateAbbilities();
     }
 
     public void OpenGameOverMenu(){

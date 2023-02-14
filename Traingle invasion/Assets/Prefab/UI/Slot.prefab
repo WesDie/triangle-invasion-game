@@ -227,6 +227,7 @@ MonoBehaviour:
   isEquiped: 0
   itemDescription: 
   level: 0
+  itemName: 
 --- !u!114 &5874289020944649354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,5 +374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc10518a1989be44a3bae401c25424f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotName: AbItem
+  slotName: 
   isUnequipedSlot: 1
+  slotEquipIndex: 0

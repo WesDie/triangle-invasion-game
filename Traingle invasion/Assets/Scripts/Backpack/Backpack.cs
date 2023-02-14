@@ -19,12 +19,14 @@ public class Backpack : MonoBehaviour
     Image optionsButton;
     Image quitButton;
 
+
     [System.Serializable]
     public class Abillities{
         public string abillityName;
         public Sprite abillityImage;
         public int abillityLevel;
         public string abillityDesc;
+        public bool hasFound = false;
     }
     public Abillities[] abillityInfo;
 
@@ -33,6 +35,7 @@ public class Backpack : MonoBehaviour
         public string AbillitiesEquipedName;
         public int AbillitiesEquipedLevel;
         public string AbillitiesEquipedDesc;
+        public Sprite AbillitiesEquipedImage;
         public bool isEquiped = false;
     }
     public AbillitiesEquiped[] AbillitiesEquipedInfo = new AbillitiesEquiped[4];
@@ -49,6 +52,19 @@ public class Backpack : MonoBehaviour
         inventoryButton = backpackMainObject.transform.GetChild(2).GetComponent<Image>();
         optionsButton = backpackMainObject.transform.GetChild(3).GetComponent<Image>();
         quitButton = backpackMainObject.transform.GetChild(4).GetComponent<Image>();
+    }
+
+    public void UpdateAbbilities(){
+        for (int i = 0; i < 4; i++)
+        {
+            Image effectImageGame = GameObject.Find("EffectImage" + (i + 1)).GetComponent<Image>();
+            if(AbillitiesEquipedInfo[i].isEquiped == true){
+                effectImageGame.enabled = true;
+                effectImageGame.sprite = AbillitiesEquipedInfo[i].AbillitiesEquipedImage;
+            } else {
+                effectImageGame.enabled = false;
+            }
+        }
     }
 
     public void OpenMapmenu(){

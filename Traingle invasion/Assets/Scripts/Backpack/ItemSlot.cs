@@ -12,6 +12,8 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public int level;
     public string itemName;
 
+    int currentEquipedSlot;
+
     Vector3 startPos;
     Backpack backpackScript;
     Image thisImage;
@@ -57,6 +59,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         for (int i = 3; i > -1; i--)
         {
             if(i == slotEquipIndex){
+                currentEquipedSlot = slotEquipIndex;
                 mainEquipedAbObject = GameObject.FindGameObjectWithTag("EquipedAbilitiesSlots").transform.GetChild(i).gameObject;
                         
                 if(mainEquipedAbObject.transform.childCount == 0){
@@ -76,6 +79,10 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 transform.SetParent(mainUnEquipedAbObject.transform);
                 transform.GetChild(0).gameObject.SetActive(false);
             }
+            backpackScript.AbillitiesEquipedInfo[currentEquipedSlot].AbillitiesEquipedName = null;
+            backpackScript.AbillitiesEquipedInfo[currentEquipedSlot].AbillitiesEquipedLevel = 0;
+            backpackScript.AbillitiesEquipedInfo[currentEquipedSlot].AbillitiesEquipedDesc = null;
+            backpackScript.AbillitiesEquipedInfo[currentEquipedSlot].isEquiped = false;
             isEquiped = false;
             thisImage.raycastTarget = true;
             gameObject.GetComponent<RectTransform>().localPosition = startPos;
