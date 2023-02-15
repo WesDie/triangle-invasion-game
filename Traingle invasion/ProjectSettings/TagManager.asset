@@ -13,6 +13,7 @@ TagManager:
   - backpackmain
   - EquipedAbilitiesSlots
   - UnEquipedAbilitiesSlots
+  - Shield
   layers:
   - Default
   - TransparentFX

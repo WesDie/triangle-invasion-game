@@ -53,5 +53,11 @@ public class EnemyProjectile : MonoBehaviour
             Instantiate(explosionFX, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+
+        if (other.tag == "Shield")
+        {
+            Instantiate(explosionFX, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 }

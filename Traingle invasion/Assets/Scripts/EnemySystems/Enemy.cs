@@ -81,11 +81,10 @@ public class Enemy : MonoBehaviour
             projectileDamage = other.gameObject.GetComponent<projectile>().projectileDamage;
             Health = Health - projectileDamage;
         }
-        if (other.tag == "Finish")
+        if (other.tag == "Ground")
         {
             Destroy(gameObject);
             Instantiate(ExplosionFX, transform.position, Quaternion.identity);
-            mainCamera.GetComponent<mainCamera>().TriggerShake();
             gameManagerObject.GetComponent<ManageGame>().OpenGameOverMenu();
             playerScript.gameOverisOn = true;
 

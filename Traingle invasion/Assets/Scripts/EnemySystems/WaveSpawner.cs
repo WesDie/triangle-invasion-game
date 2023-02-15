@@ -36,7 +36,7 @@ public class WaveSpawner : MonoBehaviour
     float timeBeforeFirstWave;
     int enemiesSpawnedInWave;
     bool waveComplete = false;
-    bool levelComplete = false;
+    public bool levelComplete = false;
 
     List<GameObject> availableSpawns = new List<GameObject>();
 
@@ -61,8 +61,8 @@ public class WaveSpawner : MonoBehaviour
         }
 
         if(levelComplete == true){
-            levelCompleteObject.SetActive(true);
-            Time.timeScale = 0;
+            //levelCompleteObject.SetActive(true);
+            //Time.timeScale = 0;
         }
 
         if(Time.time >= timeBetweenCurrentWave && endWaves == false){

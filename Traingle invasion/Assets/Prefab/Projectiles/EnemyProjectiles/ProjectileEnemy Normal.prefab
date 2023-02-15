@@ -213,9 +213,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  projectileDamage: 0.2
+  projectileDamage: 1
   explosionFX: {fileID: 1824600303970711261, guid: 6becb8544b9a27545b806deb1469b2ad, type: 3}
-  selectedDamageType: 0
+  selectedDamageType: 1
 --- !u!96 &3455932300531552752
 TrailRenderer:
   serializedVersion: 2

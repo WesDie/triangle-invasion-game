@@ -173,6 +173,8 @@ public class Movement : MonoBehaviour
             }else if(currentAbillityName == "Homing"){
                 homingTimedValue = 3;       
                 HomingBulletTimed();
+            }else if(currentAbillityName == "Shield"){
+                StartCoroutine(Shield());
             }
             
             // if(currentEffectIndex == 0 && GetComponent<Backpack>().AbillitiesEquipedInfo[currentEffectIndex].AbillitiesEquipedName == "Multiple"){
@@ -217,6 +219,24 @@ public class Movement : MonoBehaviour
             }
         }
 
+    }
+
+    bool isShieldActive;
+    IEnumerator Shield()
+    {
+        if(!isShieldActive){
+            OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
+            ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
+            isShieldActive = true;
+        }
+        transform.GetChild(8).GetComponent<SpriteRenderer>().enabled = true;
+        transform.GetChild(8).GetComponent<CircleCollider2D>().enabled = true;
+
+        yield return new WaitForSeconds(10);
+
+        isShieldActive = false;
+        transform.GetChild(8).GetComponent<SpriteRenderer>().enabled = false;
+        transform.GetChild(8).GetComponent<CircleCollider2D>().enabled = false;
     }
 
     void HomingBulletTimed(){
