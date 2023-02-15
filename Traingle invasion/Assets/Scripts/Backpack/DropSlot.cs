@@ -34,6 +34,7 @@ public class DropSlot : MonoBehaviour, IDropHandler
                 backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedLevel = transform.GetChild(0).GetComponent<ItemSlot>().level;
                 backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedDesc = transform.GetChild(0).GetComponent<ItemSlot>().itemDescription;
                 backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitiesEquipedImage = transform.GetChild(0).GetComponent<Image>().sprite;
+                backpackScript.AbillitiesEquipedInfo[slotEquipIndex].AbillitieEquipedsCost = transform.GetChild(0).GetComponent<ItemSlot>().itemCost;
                 backpackScript.AbillitiesEquipedInfo[slotEquipIndex].isEquiped = true;
             }
         }

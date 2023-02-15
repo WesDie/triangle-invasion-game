@@ -40,12 +40,15 @@ public class Movement : MonoBehaviour
     int homingTimedValue = 3;  
     ManageGame ManageGameScript;
     public float health = 100f;
+    Backpack backpackScript;
+    string currentAbillityName;
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
         ManageScript = GameObject.FindGameObjectWithTag("GameManager");
         ManageGameScript = ManageScript.GetComponent<ManageGame>();
+        backpackScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Backpack>();
 
         effectcost = 0.2f;
     }
@@ -76,29 +79,54 @@ public class Movement : MonoBehaviour
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(2).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(3).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
+            if(backpackScript.AbillitiesEquipedInfo[0].AbillitieEquipedsCost != 0){
+                effectcost = backpackScript.AbillitiesEquipedInfo[0].AbillitieEquipedsCost;
+                currentAbillityName = backpackScript.AbillitiesEquipedInfo[0].AbillitiesEquipedName;
+
+            } else{
+                effectcost = 2;
+                currentAbillityName = null;
+            }
             currentEffectIndex = 0;
-            effectcost = 0.2f;
         } else if(specialEffect > 0.2 && specialEffect < 0.4){
             specialEffectList.transform.GetChild(0).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 1f);
             specialEffectList.transform.GetChild(2).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(3).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
+            if(backpackScript.AbillitiesEquipedInfo[1].AbillitieEquipedsCost != 0){
+                effectcost = backpackScript.AbillitiesEquipedInfo[1].AbillitieEquipedsCost;
+                currentAbillityName = backpackScript.AbillitiesEquipedInfo[1].AbillitiesEquipedName;
+            } else{
+                effectcost = 2;
+                currentAbillityName = null;
+            }
             currentEffectIndex = 1;
-            effectcost = 0.5f;
         } else if(specialEffect > 0.4 && specialEffect < 0.6){
             specialEffectList.transform.GetChild(0).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(2).GetComponent<Image>().color = new Color(255f, 255f, 255f, 1f);
             specialEffectList.transform.GetChild(3).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
+            if(backpackScript.AbillitiesEquipedInfo[2].AbillitieEquipedsCost != 0){
+                effectcost = backpackScript.AbillitiesEquipedInfo[2].AbillitieEquipedsCost;
+                currentAbillityName = backpackScript.AbillitiesEquipedInfo[2].AbillitiesEquipedName;
+            } else{
+                effectcost = 2;
+                currentAbillityName = null;
+            }
             currentEffectIndex = 2;
-            effectcost = 0.2f;
         } else if(specialEffect > 0.6 && specialEffect < 0.8){
             specialEffectList.transform.GetChild(0).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(1).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(2).GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.5f);
             specialEffectList.transform.GetChild(3).GetComponent<Image>().color = new Color(255f, 255f, 255f, 1f);
+            if(backpackScript.AbillitiesEquipedInfo[3].AbillitieEquipedsCost != 0){
+                effectcost = backpackScript.AbillitiesEquipedInfo[3].AbillitieEquipedsCost;
+                currentAbillityName = backpackScript.AbillitiesEquipedInfo[3].AbillitiesEquipedName;
+            } else{
+                effectcost = 2;
+                currentAbillityName = null;
+            }
             currentEffectIndex = 3;
-            effectcost = 0.3f;
         }
 
         if(OverheatBarEffectImage.fillAmount < effectcost){
@@ -119,9 +147,9 @@ public class Movement : MonoBehaviour
             body.drag = 10f;
         }
 
-        if (Input.GetMouseButtonDown(1) && specialEffectCanPay == true && ManageGameScript.inCombat == true)
+        if (Input.GetMouseButtonDown(1) && specialEffectCanPay == true && ManageGameScript.inCombat == true && currentAbillityName != null)
         {
-            if(currentEffectIndex == 0 && GetComponent<Backpack>().AbillitiesEquipedInfo[currentEffectIndex].AbillitiesEquipedName == "Multiple"){
+            if(currentAbillityName == "Multiple"){
                 Instantiate(bulletPrefab, transform.position, Quaternion.identity);
                 Instantiate(bulletPrefab, gameObject.transform.GetChild(0).transform.position, gameObject.transform.GetChild(0).transform.localRotation);
                 Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(1).transform.localRotation);
@@ -133,19 +161,45 @@ public class Movement : MonoBehaviour
 
                 body.AddForce(transform.up * -2000f);
                 body.drag = 10f;
-            } else if(currentEffectIndex == 1){
+            } else if(currentAbillityName == "Fast"){
                 TimedSpecialValue = 10;
                 SpecialEffectTimed();
-            } else if(currentEffectIndex == 2){
+            }else if(currentAbillityName == "Big"){
                 Instantiate(bigBulletPrefab, transform.position, Quaternion.identity);
                 OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
                 ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
                 body.AddForce(transform.up * -3000f);
                 body.drag = 10f;
-            } else if(currentEffectIndex == 3){    
+            }else if(currentAbillityName == "Homing"){
                 homingTimedValue = 3;       
                 HomingBulletTimed();
             }
+            
+            // if(currentEffectIndex == 0 && GetComponent<Backpack>().AbillitiesEquipedInfo[currentEffectIndex].AbillitiesEquipedName == "Multiple"){
+            //     Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            //     Instantiate(bulletPrefab, gameObject.transform.GetChild(0).transform.position, gameObject.transform.GetChild(0).transform.localRotation);
+            //     Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(1).transform.localRotation);
+            //     Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(2).transform.localRotation);
+            //     Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(3).transform.localRotation);
+
+            //     OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
+            //     ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
+
+            //     body.AddForce(transform.up * -2000f);
+            //     body.drag = 10f;
+            // } else if(currentEffectIndex == 1){
+            //     TimedSpecialValue = 10;
+            //     SpecialEffectTimed();
+            // } else if(currentEffectIndex == 2){
+            //     Instantiate(bigBulletPrefab, transform.position, Quaternion.identity);
+            //     OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
+            //     ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
+            //     body.AddForce(transform.up * -3000f);
+            //     body.drag = 10f;
+            // } else if(currentEffectIndex == 3){    
+            //     homingTimedValue = 3;       
+            //     HomingBulletTimed();
+            // }
         }
 
         if (Input.GetKeyDown(KeyCode.P))

@@ -26,6 +26,7 @@ public class Backpack : MonoBehaviour
         public Sprite abillityImage;
         public int abillityLevel;
         public string abillityDesc;
+        public float abillityCost;
         public bool hasFound = false;
     }
     public Abillities[] abillityInfo;
@@ -36,6 +37,7 @@ public class Backpack : MonoBehaviour
         public int AbillitiesEquipedLevel;
         public string AbillitiesEquipedDesc;
         public Sprite AbillitiesEquipedImage;
+        public float AbillitieEquipedsCost;
         public bool isEquiped = false;
     }
     public AbillitiesEquiped[] AbillitiesEquipedInfo = new AbillitiesEquiped[4];

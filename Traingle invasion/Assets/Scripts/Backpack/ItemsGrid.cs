@@ -23,11 +23,20 @@ public class ItemsGrid : MonoBehaviour
     public void ReloadBackpackAb(){
         for (int i = 0; i < backpackScript.abillityInfo.Length; i++)
         {
-            if(backpackScript.abillityInfo[i].hasFound == true && transform.GetChild(i).childCount != 0){
+            if(backpackScript.abillityInfo[i].hasFound == true && transform.GetChild(i).childCount != 1){
                 transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+                if(transform.GetChild(i).childCount == 1){
+                    transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                } else if(transform.GetChild(i).childCount == 2){
+                    transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
+                }
                 transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = backpackScript.abillityInfo[i].abillityImage;
                 transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemName = backpackScript.abillityInfo[i].abillityName;
                 transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemDescription = backpackScript.abillityInfo[i].abillityDesc;
+                transform.GetChild(i).GetChild(0).GetComponent<ItemSlot>().itemCost = backpackScript.abillityInfo[i].abillityCost;
+            } if(backpackScript.abillityInfo[i].hasFound == false && transform.GetChild(i).childCount != 0){
+                transform.GetChild(i).GetChild(1).gameObject.SetActive(true);
+                transform.GetChild(i).GetChild(1).GetComponent<Image>().sprite = backpackScript.abillityInfo[i].abillityImage;
             }
         }
     }

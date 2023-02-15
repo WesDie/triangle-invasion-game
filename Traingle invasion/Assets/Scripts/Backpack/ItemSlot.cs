@@ -11,6 +11,7 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public string itemDescription;
     public int level;
     public string itemName;
+    public float itemCost;
 
     int currentEquipedSlot;
 
