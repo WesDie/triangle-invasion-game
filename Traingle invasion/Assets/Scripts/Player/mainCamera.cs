@@ -21,6 +21,8 @@ public class mainCamera : MonoBehaviour
     int distanceFromScreen = 32;
     float distanceFromScreen1 = 32;
     float distancePerSecond = 100;
+    float distancePerSecondExit = 200;
+    public bool isFullInWorkbench = false;
 
     void OnEnable()
     {
@@ -41,7 +43,7 @@ public class mainCamera : MonoBehaviour
                 shakeDuration = 0f;
                 transform.localPosition =  Vector3.Slerp(transform.position, initialPosition, 2f * Time.deltaTime);;
             }
-        } else if(isInWorkbench == true){
+        } else if(isInWorkbench == true && isFullInWorkbench == false){
             if (shakeDuration > 0)
             {
                 transform.localPosition = workbenchPos + Random.insideUnitSphere * shakeMagnitude;
@@ -52,15 +54,39 @@ public class mainCamera : MonoBehaviour
             {
                 shakeDuration = 0f;
                 transform.localPosition =  Vector3.Slerp(transform.position, workbenchPos, 2f * Time.deltaTime);
-                if(distanceFromScreen < 380){
+                if(distanceFromScreen < 380 && isFullInWorkbench == false){
                     distanceFromScreen1 += Time.deltaTime * distancePerSecond;
                     distanceFromScreen = Mathf.FloorToInt(distanceFromScreen1);
                     GetComponent<UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera>().assetsPPU = distanceFromScreen;
                 } else {
                     GetComponent<UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera>().assetsPPU = 380;
+                    isFullInWorkbench = true;
                 }
             }
-        } else{
+        } else if(isInWorkbench == false && isFullInWorkbench == true){
+            if (shakeDuration > 0)
+            {
+                Vector3 newPos = new Vector3(target.position.x, -5f, -10f);
+                transform.localPosition = newPos + Random.insideUnitSphere * shakeMagnitude;
+            
+                shakeDuration -= Time.deltaTime * dampingSpeed;
+            }
+            else
+            {
+                Vector3 newPos = new Vector3(target.position.x, -5f, -10f);
+                shakeDuration = 0f;
+                transform.localPosition =  Vector3.Slerp(transform.position, newPos, 0.5f * Time.deltaTime);
+                if(distanceFromScreen > 32){
+                    distanceFromScreen1 -= Time.deltaTime * distancePerSecondExit;
+                    distanceFromScreen = Mathf.FloorToInt(distanceFromScreen1);
+                    GetComponent<UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera>().assetsPPU = distanceFromScreen;
+                } else {
+                    GetComponent<UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera>().assetsPPU = 32;
+                    isFullInWorkbench = false;
+                    isInWorkbench = false;
+                }
+            }  
+        }else if(isInCombat == false && isInWorkbench == false && isFullInWorkbench == false){
             Vector3 newPos = new Vector3(target.position.x, -5f, -10f);
             transform.position = Vector3.Slerp(transform.position, newPos, followSpeed * Time.deltaTime);
         }
