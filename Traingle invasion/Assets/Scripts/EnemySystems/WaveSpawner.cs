@@ -56,7 +56,7 @@ public class WaveSpawner : MonoBehaviour
         ttime = Time.time;
 
         if(waveInfo.Length == currentWave){
-            Debug.Log("Level Complete");
+            //Debug.Log("Level Complete");
             endWaves = true;
         }
 

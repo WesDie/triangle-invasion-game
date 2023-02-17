@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class Movement : MonoBehaviour
 {
     Rigidbody2D body;
@@ -175,33 +174,21 @@ public class Movement : MonoBehaviour
                 HomingBulletTimed();
             }else if(currentAbillityName == "Shield"){
                 StartCoroutine(Shield());
+            }else if(currentAbillityName == "Kickback"){
+                GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+                OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
+                ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
+                for (int i = 0; i < allEnemies.Length; i++)
+                {
+                    allEnemies[i].GetComponent<Enemy>().KickbackEffect();
+                }
+                body.AddForce(transform.up * -2000f);
+                body.drag = 10f;
+            }else if(currentAbillityName == "SlowDown"){
+                OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.5f;
+                ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.5f;
+                StartCoroutine(SlowDown());
             }
-            
-            // if(currentEffectIndex == 0 && GetComponent<Backpack>().AbillitiesEquipedInfo[currentEffectIndex].AbillitiesEquipedName == "Multiple"){
-            //     Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-            //     Instantiate(bulletPrefab, gameObject.transform.GetChild(0).transform.position, gameObject.transform.GetChild(0).transform.localRotation);
-            //     Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(1).transform.localRotation);
-            //     Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(2).transform.localRotation);
-            //     Instantiate(bulletPrefab, gameObject.transform.GetChild(1).transform.position, gameObject.transform.GetChild(3).transform.localRotation);
-
-            //     OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
-            //     ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
-
-            //     body.AddForce(transform.up * -2000f);
-            //     body.drag = 10f;
-            // } else if(currentEffectIndex == 1){
-            //     TimedSpecialValue = 10;
-            //     SpecialEffectTimed();
-            // } else if(currentEffectIndex == 2){
-            //     Instantiate(bigBulletPrefab, transform.position, Quaternion.identity);
-            //     OverheatBarEffectImage.fillAmount = OverheatBarEffectImage.fillAmount - 0.2f;
-            //     ManageGameScript.effectOverheatBarFillValue = ManageGameScript.effectOverheatBarFillValue - 0.2f;
-            //     body.AddForce(transform.up * -3000f);
-            //     body.drag = 10f;
-            // } else if(currentEffectIndex == 3){    
-            //     homingTimedValue = 3;       
-            //     HomingBulletTimed();
-            // }
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -222,6 +209,21 @@ public class Movement : MonoBehaviour
     }
 
     bool isShieldActive;
+
+    IEnumerator SlowDown()
+    {
+        runSpeed = 20f;
+        Time.timeScale = 0.5f;
+        UnityEngine.Rendering.VolumeProfile profile = GameObject.Find("Post Processing").GetComponent<UnityEngine.Rendering.Volume>().profile;
+        UnityEngine.Rendering.Universal.ChromaticAberration myChromaticAberration;
+        profile.TryGet(out myChromaticAberration);
+        myChromaticAberration.intensity.Override(0.75f);
+
+        yield return new WaitForSeconds(10);
+        runSpeed = 10f;
+        Time.timeScale = 1f;
+        myChromaticAberration.intensity.Override(0f);
+    }
     IEnumerator Shield()
     {
         if(!isShieldActive){

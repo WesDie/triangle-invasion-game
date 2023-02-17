@@ -1005,6 +1005,18 @@ MonoBehaviour:
     abillityDesc: 'Desc: Shield Abillity'
     abillityCost: 0.3
     hasFound: 0
+  - abillityName: Kickback
+    abillityImage: {fileID: 21300000, guid: 6b35476d10ed5614a949de8f7c45b534, type: 3}
+    abillityLevel: 3
+    abillityDesc: 'Desc: Kickback ability'
+    abillityCost: 0.2
+    hasFound: 1
+  - abillityName: SlowDown
+    abillityImage: {fileID: 21300000, guid: 29f90cd6202745c448e74a1398b1c731, type: 3}
+    abillityLevel: 3
+    abillityDesc: 'Desc: Slowdown  ability'
+    abillityCost: 0.5
+    hasFound: 1
   AbillitiesEquipedInfo:
   - AbillitiesEquipedName: 
     AbillitiesEquipedLevel: 0

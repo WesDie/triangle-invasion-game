@@ -74,6 +74,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void KickbackEffect(){
+        body.AddForce(transform.up * -2000f);
+        body.drag = 10f;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Bullet")
