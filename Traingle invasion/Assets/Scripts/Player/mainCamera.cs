@@ -74,8 +74,9 @@ public class mainCamera : MonoBehaviour
             else
             {
                 Vector3 newPos = new Vector3(target.position.x, -5f, -10f);
-                shakeDuration = 0f;
                 transform.localPosition =  Vector3.Slerp(transform.position, newPos, 0.5f * Time.deltaTime);
+
+                shakeDuration = 0f;
                 if(distanceFromScreen > 32){
                     distanceFromScreen1 -= Time.deltaTime * distancePerSecondExit;
                     distanceFromScreen = Mathf.FloorToInt(distanceFromScreen1);

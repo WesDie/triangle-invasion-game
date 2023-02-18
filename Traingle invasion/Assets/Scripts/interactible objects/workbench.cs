@@ -8,11 +8,13 @@ public class workbench : MonoBehaviour
     public bool canEnterWorkbench;
     mainCamera mainCameraScript;
     Movement playerScript;
+    Backpack backpackScript;
 
     void Start(){
         anim = GetComponent<Animator>();
         mainCameraScript = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<mainCamera>();
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Movement>();
+        backpackScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Backpack>();
     }
 
     void Update()
@@ -25,6 +27,15 @@ public class workbench : MonoBehaviour
         } 
 
         if(mainCameraScript.isInWorkbench == true && Input.GetKeyDown (KeyCode.Q) && mainCameraScript.isFullInWorkbench == true){
+            backpackScript.UpdateAbbilities();
+            mainCameraScript.isInWorkbench = false;
+            StartCoroutine(DoorAnimationLeave());
+        }
+    }
+
+    public void CloseWorkbench(){
+        if(mainCameraScript.isInWorkbench == true && mainCameraScript.isFullInWorkbench == true){
+            backpackScript.UpdateAbbilities();
             mainCameraScript.isInWorkbench = false;
             StartCoroutine(DoorAnimationLeave());
         }

@@ -14,6 +14,7 @@ TagManager:
   - EquipedAbilitiesSlots
   - UnEquipedAbilitiesSlots
   - Shield
+  - Mirror
   layers:
   - Default
   - TransparentFX

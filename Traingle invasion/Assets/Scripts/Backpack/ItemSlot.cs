@@ -45,7 +45,12 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData){
         if(isEquiped == false){
-            transform.position = eventData.position;
+            Canvas myCanvas = GameObject.Find("WorkbenchCanvas").GetComponent<Canvas>();
+            Vector2 pos;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(myCanvas.transform as RectTransform, Input.mousePosition, myCanvas.worldCamera, out pos);
+            transform.position = myCanvas.transform.TransformPoint(pos);
+            GameObject draggingParent = GameObject.Find("DraggingAb");
+            transform.SetParent(draggingParent.transform);
         }
     }
 
@@ -66,19 +71,22 @@ public class ItemSlot : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 if(mainEquipedAbObject.transform.childCount == 0){
                     transform.SetParent(mainEquipedAbObject.transform);
                     transform.GetChild(0).gameObject.SetActive(true);
+                    transform.position = transform.parent.transform.position;
+                    transform.SetAsLastSibling();
                 }
             }
         }
     }
 
     public void ChangeToUnEquiped(){
-        for (int i = 17; i > -1; i--)
+        for (int i = 16; i > -1; i--)
         {
             mainUnEquipedAbObject = GameObject.FindGameObjectWithTag("UnEquipedAbilitiesSlots").transform.GetChild(0).transform.GetChild(i).gameObject;
                     
-            if(mainUnEquipedAbObject.transform.childCount == 0){
+            if(mainUnEquipedAbObject.transform.childCount == 1){
                 transform.SetParent(mainUnEquipedAbObject.transform);
                 transform.GetChild(0).gameObject.SetActive(false);
+                transform.SetAsFirstSibling();
             }
             backpackScript.AbillitiesEquipedInfo[currentEquipedSlot].AbillitiesEquipedName = null;
             backpackScript.AbillitiesEquipedInfo[currentEquipedSlot].AbillitiesEquipedLevel = 0;
