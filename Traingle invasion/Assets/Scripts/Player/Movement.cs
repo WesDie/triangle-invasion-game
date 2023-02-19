@@ -42,6 +42,8 @@ public class Movement : MonoBehaviour
     Backpack backpackScript;
     string currentAbillityName;
 
+    public float hoverHeight = 0;
+
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
@@ -135,6 +137,11 @@ public class Movement : MonoBehaviour
             specialEffectCanPay = true;
             CantPayEffectImage.SetActive(false);
         }
+        // if(Input.GetKeyDown("space") && ManageGameScript.inCombat == false){
+        //     floatHeight = floatHeight + 2;
+        // }
+        hoverHeight = floatHeight;
+        floatHeight -= Input.GetAxis("Mouse ScrollWheel");
 
         if (Input.GetMouseButtonDown(0) && ManageScript.GetComponent<ManageGame>().limitIsReached == true && ManageGameScript.inCombat == true || Input.GetKeyDown("space") && ManageScript.GetComponent<ManageGame>().limitIsReached == true && ManageGameScript.inCombat == true)
         {
@@ -144,6 +151,8 @@ public class Movement : MonoBehaviour
 
             body.AddForce(transform.up * shootSpeed);
             body.drag = 10f;
+        } else if (Input.GetMouseButtonDown(0) && ManageGameScript.inCombat == false){
+            playerGun.transform.GetChild(0);
         }
 
         if (Input.GetMouseButtonDown(1) && specialEffectCanPay == true && ManageGameScript.inCombat == true && currentAbillityName != null)
@@ -278,9 +287,13 @@ public class Movement : MonoBehaviour
             ApplyF(anchors[i], hits[i]);
         }
 
-        // var dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
-        // var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        // playerGun.transform.rotation = Quaternion.AngleAxis(angle -90, Vector3.forward);
+        if(ManageGameScript.inCombat == false){
+            var dir = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
+            var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            playerGun.transform.rotation = Quaternion.AngleAxis(angle -90, Vector3.forward);
+        } else {
+            playerGun.transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
+        }
 
     }
 

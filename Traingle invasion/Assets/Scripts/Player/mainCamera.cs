@@ -23,6 +23,7 @@ public class mainCamera : MonoBehaviour
     float distancePerSecond = 100;
     float distancePerSecondExit = 200;
     public bool isFullInWorkbench = false;
+    public float yPos;
 
     void OnEnable()
     {
@@ -66,14 +67,14 @@ public class mainCamera : MonoBehaviour
         } else if(isInWorkbench == false && isFullInWorkbench == true){
             if (shakeDuration > 0)
             {
-                Vector3 newPos = new Vector3(target.position.x, -5f, -10f);
+                Vector3 newPos = new Vector3(target.position.x, yPos, -10f);
                 transform.localPosition = newPos + Random.insideUnitSphere * shakeMagnitude;
             
                 shakeDuration -= Time.deltaTime * dampingSpeed;
             }
             else
             {
-                Vector3 newPos = new Vector3(target.position.x, -5f, -10f);
+                Vector3 newPos = new Vector3(target.position.x, yPos, -10f);
                 transform.localPosition =  Vector3.Slerp(transform.position, newPos, 0.5f * Time.deltaTime);
 
                 shakeDuration = 0f;
@@ -88,7 +89,7 @@ public class mainCamera : MonoBehaviour
                 }
             }  
         }else if(isInCombat == false && isInWorkbench == false && isFullInWorkbench == false){
-            Vector3 newPos = new Vector3(target.position.x, -5f, -10f);
+            Vector3 newPos = new Vector3(target.position.x, yPos, -10f);
             transform.position = Vector3.Slerp(transform.position, newPos, followSpeed * Time.deltaTime);
         }
     }

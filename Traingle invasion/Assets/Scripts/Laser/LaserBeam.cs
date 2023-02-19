@@ -49,14 +49,16 @@ public class LaserBeam
             count++;
         }
     }
-
+    public int maxLaserPoints = 0;
     void CheckHit(RaycastHit2D hitInfo, Vector2 direction, LineRenderer laser){
-        if(hitInfo.collider.gameObject.tag == "Mirror"){
+        if(hitInfo.collider.gameObject.tag == "Mirror" && maxLaserPoints <= 100){
             Vector2 pos = hitInfo.point;
             Vector2 dir = Vector2.Reflect(direction, hitInfo.normal);
+            maxLaserPoints++;
 
             CastRay(pos, dir, laser);
         } else {
+            maxLaserPoints = 0;
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
         }

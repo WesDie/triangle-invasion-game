@@ -25,9 +25,9 @@ TagManager:
   - PostProcessing
   - Background
   - Ground
-  - 
-  - 
-  - 
+  - Platform
+  - Enemy
+  - Player
   - 
   - 
   - 
@@ -54,4 +54,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: player
+    uniqueID: 131294863
     locked: 0
